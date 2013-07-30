@@ -33,6 +33,7 @@ def enum(**enums):
     en = copy.deepcopy(enums)
     e = new.classobj('Enum', (), enums)
     e._dict = en
+    e.choices = [(v, k) for k, v in en.iteritems()]
     e.get_id_by_label = e._dict.get
     e.get_label_by_id = dict([(v, k) for (k, v) in e._dict.items()]).get
 
@@ -72,6 +73,13 @@ class RichEnumValue(object):
 
     def __ne__(self, other):
         return not (self.__eq__(other))
+
+    def choicify(self, value_field="canonical_name", display_field="display_name"):
+        """
+        Returns a tuple that's compatible with Django's choices.
+        https://docs.djangoproject.com/en/dev/ref/models/fields/#choices
+        """
+        return (getattr(self, value_field), getattr(self, display_field))
 
 
 class OrderedRichEnumValue(RichEnumValue):
@@ -201,6 +209,16 @@ class _EnumMethods(object):
     @classmethod
     def from_display(cls, display_name):
         return cls.lookup('display_name', display_name)
+
+    @classmethod
+    def choices(cls, value_field='canonical_name', display_field='display_name'):
+        """
+        Returns a list of 2-tuples to be used as an argument to Django Field.choices
+
+        Implementation note: choices() can't be a property
+                             See: http://www.no-ack.org/2011/03/strange-behavior-with-properties-on.html and http://utcc.utoronto.ca/~cks/space/blog/python/UsingMetaclass03
+        """
+        return [m.choicify(value_field=value_field, display_field=display_field) for m in cls._MEMBERS]  # pylint: disable=E1101
 
 
 class RichEnum(_EnumMethods):

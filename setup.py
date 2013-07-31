@@ -11,7 +11,7 @@ setup(
     name='richenum',
     version='0.1.0',
     description='Enum library for python.',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     classifiers=[],
     keywords='python enum richenum',
     url='https://github.com/hearsaycorp/richenum',

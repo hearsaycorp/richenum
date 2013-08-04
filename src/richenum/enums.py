@@ -39,7 +39,7 @@ def enum(**enums):
     en = copy.deepcopy(enums)
     e = new.classobj('Enum', (), enums)
     e._dict = en
-    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]
+    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]  # DEPRECATED
     e.get_id_by_label = e._dict.get
     e.get_label_by_id = dict([(v, k) for (k, v) in e._dict.items()]).get
 
@@ -47,8 +47,6 @@ def enum(**enums):
 
 
 class RichEnumValue(object):
-    """
-    """
     def __init__(self, canonical_name, display_name, *args, **kwargs):
         self.canonical_name = canonical_name
         self.display_name = display_name
@@ -82,6 +80,8 @@ class RichEnumValue(object):
 
     def choicify(self, value_field="canonical_name", display_field="display_name"):
         """
+        DEPRECATED
+
         Returns a tuple that's compatible with Django's choices.
         https://docs.djangoproject.com/en/dev/ref/models/fields/#choices
         """
@@ -219,6 +219,8 @@ class _EnumMethods(object):
     @classmethod
     def choices(cls, value_field='canonical_name', display_field='display_name'):
         """
+        DEPRECATED
+
         Returns a list of 2-tuples to be used as an argument to Django Field.choices
 
         Implementation note: choices() can't be a property

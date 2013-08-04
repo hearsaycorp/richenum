@@ -268,5 +268,5 @@ class OrderedRichEnum(_EnumMethods):
     __metaclass__ = _OrderedRichEnumMetaclass
 
     @classmethod
-    def from_index(cls, index):  # Purely for consistency
+    def from_index(cls, index):
         return cls.lookup('index', index)

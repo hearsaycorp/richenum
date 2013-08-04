@@ -2,6 +2,8 @@ import collections
 import copy
 import new
 
+from operator import itemgetter
+
 
 class EnumConstructionException(Exception):
     """
@@ -28,12 +30,16 @@ def enum(**enums):
         >>> MY_ENUM.BAR
         2
     """
+    # Enum values must be hashable to support reverse lookup.
+    if not all(isinstance(val, collections.Hashable) for val in enums.itervalues()):
+        raise EnumConstructionException('All enum values must be hashable.')
+
     # NB: cheating here by just maintaining a copy of the original dict for iteration because iterators are hard
     #  it must be a deepcopy because new.classobj() modifies the original
     en = copy.deepcopy(enums)
     e = new.classobj('Enum', (), enums)
     e._dict = en
-    e.choices = [(v, k) for k, v in en.iteritems()]
+    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]
     e.get_id_by_label = e._dict.get
     e.get_label_by_id = dict([(v, k) for (k, v) in e._dict.items()]).get
 

@@ -9,7 +9,7 @@ tests_require = [
 
 setup(
     name='richenum',
-    version='0.1.0',
+    version='1.0.0',
     description='Enum library for python.',
     long_description=open('README.rst').read(),
     classifiers=[],

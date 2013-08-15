@@ -255,9 +255,10 @@ class RichEnum(_EnumMethods):
 class OrderedRichEnum(_EnumMethods):
     """
     Use OrderedRichEnum when you need a RichEnum with index-based
-    access into the enum, e.g. OrderedRichEnumExample.from_index(0).
+    access into the enum, e.g. OrderedRichEnumExample.from_index(0),
+    and iteration over the enums sorted by index.
 
-    If you don't need legacy index-based access, please use regular RichEnum
+    If you don't need index-based access or sorted entries, please use regular RichEnum
     instead. It's more explicit.
 
     Usage:

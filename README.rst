@@ -17,7 +17,8 @@ RichEnum
   The canonical name should be used if you need to do a lookup or reference in your code.
   The display name should be used if you need to display text to a user.
 OrderedRichEnum
-  Exactly like RichEnum but also has an ordering/index specified for each enum value.
+  Exactly like RichEnum but also has an index specified for each enum value. Also, iteration over
+  an OrderedRichEnum will be sorted (ascending) by the enum value's index.
 
 -----
 Links
@@ -91,3 +92,13 @@ django-richenum
   | `GitHub <https://github.com/hearsaycorp/django-richenum>`_
 
   | `PyPi <https://pypi.python.org/pypi/django-richenum/>`_
+
+
+============
+Contributing
+============
+
+#. Fork the repo from `GitHub <https://github.com/hearsaycorp/richenum>`_.
+#. Make your changes.
+#. Run `pep8 <https://pypi.python.org/pypi/pep8>`_, `pyflakes <https://pypi.python.org/pypi/pyflakes>`_, and `pylint <https://pypi.python.org/pypi/pyflakes>`_ to make sure your changes follow the Python style guide and doesn't have any errors.
+#. Send a pull request from your fork to the main repo.

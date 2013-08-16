@@ -1,10 +1,13 @@
-import unittest
+import unittest2 as unittest
 
-from richenum import RichEnum, RichEnumValue, EnumLookupError, EnumConstructionException
+from richenum import EnumConstructionException
+from richenum import EnumLookupError
+from richenum import RichEnum
+from richenum import RichEnumValue
 
 
 class VegetableEnumValue(RichEnumValue):
-    def __init__(self, flavor, *args):
+    def __init__(self, flavor, *args):  # pylint: disable=E1002
         super(VegetableEnumValue, self).__init__(*args)
         self.flavor = flavor
 
@@ -28,7 +31,7 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Vegetable.BROCCOLI, broccoli)
 
         with self.assertRaises(AttributeError):
-            Vegetable.PARSNIP
+            Vegetable.PARSNIP  # pylint: disable=E1101
 
     def test_membership(self):
         self.assertTrue(Vegetable.OKRA in Vegetable)
@@ -44,25 +47,27 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(members, (Vegetable.OKRA, Vegetable.BROCCOLI))
 
     def test_lookup_by_canonical_name(self):
-        self.assertEqual(Vegetable.from_canonical('okra'), Vegetable.OKRA)
+        self.assertEqual(Vegetable.from_canonical('okra'), Vegetable.OKRA)  # pylint: disable=E1101
         with self.assertRaises(EnumLookupError):
-            Vegetable.from_canonical('parsnip')
+            Vegetable.from_canonical('parsnip')  # pylint: disable=E1101
 
     def test_lookup_by_display_name(self):
-        self.assertEqual(Vegetable.from_display('Okra'), Vegetable.OKRA)
+        self.assertEqual(Vegetable.from_display('Okra'), Vegetable.OKRA)  # pylint: disable=E1101
         with self.assertRaises(EnumLookupError):
-            Vegetable.from_display('Parsnip')
+            Vegetable.from_display('Parsnip')  # pylint: disable=E1101
 
     def test_generic_lookup(self):
-        self.assertEqual(Vegetable.lookup('canonical_name', 'okra'), Vegetable.OKRA)
-        self.assertEqual(Vegetable.lookup('flavor', 'gross'), Vegetable.OKRA)
+        self.assertEqual(Vegetable.lookup('canonical_name', 'okra'), Vegetable.OKRA)  # pylint: disable=E1101
+        self.assertEqual(Vegetable.lookup('flavor', 'gross'), Vegetable.OKRA)  # pylint: disable=E1101
         with self.assertRaises(EnumLookupError):
-            Vegetable.lookup('flavor', 'yum')
+            Vegetable.lookup('flavor', 'yum')  # pylint: disable=E1101
 
     def test_choices(self):
-        self.assertEqual(Vegetable.choices(), [('okra', 'Okra'), ('broccoli', 'Broccoli')])
         self.assertEqual(
-            Vegetable.choices(value_field='flavor', display_field='canonical_name'),
+            Vegetable.choices(),  # pylint: disable=E1101
+            [('okra', 'Okra'), ('broccoli', 'Broccoli')])
+        self.assertEqual(
+            Vegetable.choices(value_field='flavor', display_field='canonical_name'),  # pylint: disable=E1101
             [('gross', 'okra'), ('delicious', 'broccoli')])
 
     def test_public_members_must_be_enum_values(self):

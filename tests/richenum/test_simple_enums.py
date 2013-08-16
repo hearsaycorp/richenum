@@ -1,5 +1,7 @@
-import unittest
-from richenum import EnumConstructionException, enum
+import unittest2 as unittest
+
+from richenum import enum
+from richenum import EnumConstructionException
 
 
 Breakfast = enum(

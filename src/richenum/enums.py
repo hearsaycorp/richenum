@@ -34,8 +34,8 @@ def enum(**enums):
     if not all(isinstance(val, collections.Hashable) for val in enums.itervalues()):
         raise EnumConstructionException('All enum values must be hashable.')
 
-    # NB: cheating here by just maintaining a copy of the original dict for iteration because iterators are hard
-    #  it must be a deepcopy because new.classobj() modifies the original
+    # Cheating by maintaining a copy of original dict for iteration b/c iterators are hard.
+    # It must be a deepcopy because new.classobj() modifies the original.
     en = copy.deepcopy(enums)
     e = new.classobj('Enum', (), enums)
     e._dict = en
@@ -139,7 +139,8 @@ def _setup_members(cls_attrs, cls_parents, member_cls):
                 raise EnumConstructionException("Invalid attribute: %s" % attr_key)
 
         if cls_parents not in [(object, ), (_EnumMethods, )] and not members:
-            raise EnumConstructionException("Must specify at least one attribute when using RichEnum")
+            raise EnumConstructionException(
+                "Must specify at least one attribute when using RichEnum")
 
         return members
 
@@ -224,14 +225,17 @@ class _EnumMethods(object):
         Returns a list of 2-tuples to be used as an argument to Django Field.choices
 
         Implementation note: choices() can't be a property
-                             See: http://www.no-ack.org/2011/03/strange-behavior-with-properties-on.html and http://utcc.utoronto.ca/~cks/space/blog/python/UsingMetaclass03
+        See:
+            http://www.no-ack.org/2011/03/strange-behavior-with-properties-on.html
+            http://utcc.utoronto.ca/~cks/space/blog/python/UsingMetaclass03
         """
-        return [m.choicify(value_field=value_field, display_field=display_field) for m in cls._MEMBERS]  # pylint: disable=E1101
+        return [m.choicify(value_field=value_field, display_field=display_field) for m in cls.members()]
 
 
 class RichEnum(_EnumMethods):
     """
-    Enumeration that can represent a name for referencing (canonical_name) and a name for displaying (display_name).
+    Enumeration that can represent a name for referencing (canonical_name) and
+    a name for displaying (display_name).
 
     Usage:
 
@@ -246,9 +250,13 @@ class RichEnum(_EnumMethods):
 
     Notes:
         1) display_name can be a string that's marked for translation.
-           We recommend that display name be a lazily translated string for RichEnums in constants files.
-        2) Subclassing RichEnumValue is nice, that way when the RichEnumValue is logged/printed, it'll show your custom RichEnumValue and it'll be easier to differentiate between all of your different RichEnums.
-    """
+           We recommend that display name be a lazily translated string for
+           RichEnums in constants files.
+        2) Subclassing RichEnumValue is nice, that way when the RichEnumValue
+           is logged/printed, it'll show your custom RichEnumValue and it'll be
+           easier to differentiate between all of your different RichEnums.
+
+   """
     __metaclass__ = _RichEnumMetaclass
 
 

@@ -4,6 +4,10 @@ richenum
 .. image:: https://travis-ci.org/hearsaycorp/richenum.png
     :alt: Build Status
 
+.. image:: https://pypip.in/v/richenum/badge.png
+    :target: https://pypi.python.org/pypi/richenum/
+    :alt: Latest PyPI Version
+
 =====
 About
 =====
@@ -101,4 +105,5 @@ Contributing
 #. Fork the repo from `GitHub <https://github.com/hearsaycorp/richenum>`_.
 #. Make your changes.
 #. Run `pep8 <https://pypi.python.org/pypi/pep8>`_, `pyflakes <https://pypi.python.org/pypi/pyflakes>`_, and `pylint <https://pypi.python.org/pypi/pyflakes>`_ to make sure your changes follow the Python style guide and doesn't have any errors.
+#. Add yourself to the AUTHORS file (in alphabetical order).
 #. Send a pull request from your fork to the main repo.

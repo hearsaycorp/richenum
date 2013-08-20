@@ -4,11 +4,11 @@ python:
   - "2.7"
 install:
   # pylint needs unittest2 to check the test code.
-  - "pip install -q pep8 pyflakes pylint unittest2 --use-mirrors"
+  - "pip install -q flake8 pylint unittest2 --use-mirrors"
   - "pip install -e . --use-mirrors"
 before_script:
-  - "pep8 --max-line-length=119 tests src"
-  - "pyflakes src tests"
+  - "flake8 tests src setup.py"
   - "pylint -E src/richenum"
   - "pylint -E tests/richenum"
+  - "pylint -E setup.py"
 script: "python setup.py test"

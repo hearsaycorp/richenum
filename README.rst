@@ -105,6 +105,7 @@ Contributing
 
 #. Fork the repo from `GitHub <https://github.com/hearsaycorp/richenum>`_.
 #. Make your changes.
+#. Add unittests for your changes.
 #. Run `pep8 <https://pypi.python.org/pypi/pep8>`_, `pyflakes <https://pypi.python.org/pypi/pyflakes>`_, and `pylint <https://pypi.python.org/pypi/pyflakes>`_ to make sure your changes follow the Python style guide and doesn't have any errors.
 #. Add yourself to the AUTHORS file (in alphabetical order).
 #. Send a pull request from your fork to the main repo.

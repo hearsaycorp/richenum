@@ -1,3 +1,4 @@
+import copy
 import unittest2 as unittest
 
 from richenum import EnumConstructionException
@@ -71,3 +72,32 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
             class MixedBreakfast(OrderedRichEnum):
                 COFFEE = coffee
                 TEA = RichEnumValue('tea', 'Tea')
+
+    def test_less_than_other_types(self):
+        # RichEnumValues are always < values of other types
+        self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
+        self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.index)
+        self.assertLess(Breakfast.COFFEE, {'foo': 'bar'})
+
+        # ...even if the other type is also descended from OrderedRichEnumValue
+        other_coffee = OrderedRichEnumValue(0, 'coffee', 'Coffee')
+        self.assertLess(Breakfast.COFFEE, other_coffee)
+
+    def test_not_equal_to_other_types(self):
+        # RichEnumValues are always != values of other types
+        self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
+        self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.index)
+        self.assertNotEqual(Breakfast.COFFEE, {'foo': 'bar'})
+
+        # ...even if the other type is also descended from OrderedRichEnumValue
+        other_coffee = OrderedRichEnumValue(0, 'coffee', 'coffee')
+        self.assertNotEqual(Breakfast.COFFEE, other_coffee)
+
+    def test_compares_by_index(self):
+        self.assertLess(Breakfast.COFFEE, Breakfast.OATMEAL)
+
+    def test_equality_by_index_and_type(self):
+        # Tests equality of canonical names, not identity
+        coffee_copy = copy.deepcopy(Breakfast.COFFEE)
+        self.assertFalse(coffee_copy is Breakfast.COFFEE)
+        self.assertEqual(Breakfast.COFFEE, coffee_copy)

@@ -1,5 +1,6 @@
 import copy
 import unittest2 as unittest
+import warnings
 
 from richenum import EnumConstructionException
 from richenum import EnumLookupError
@@ -36,9 +37,11 @@ class RichEnumTestSuite(unittest.TestCase):
 
     def test_membership(self):
         self.assertTrue(Vegetable.OKRA in Vegetable)
-        # Doesn't work with canonical or display names.
-        self.assertFalse('okra' in Vegetable)
-        self.assertFalse('Okra' in Vegetable)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            # Doesn't work with canonical or display names.
+            self.assertFalse('okra' in Vegetable)
+            self.assertFalse('Okra' in Vegetable)
 
         parsnip = VegetableEnumValue('yum', 'parsnip', 'Parsnip')
         self.assertFalse(parsnip in Vegetable)
@@ -89,24 +92,28 @@ class RichEnumTestSuite(unittest.TestCase):
             self.fail('RichEnum should allow private attributes of any type.')
 
     def test_less_than_other_types(self):
-        # RichEnumValues are always < values of other types
-        self.assertLess(Vegetable.OKRA, Vegetable.OKRA.canonical_name)
-        self.assertLess(Vegetable.OKRA, 11)
-        self.assertLess(Vegetable.OKRA, {'foo': 'bar'})
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')  # Clean test output
+            # RichEnumValues are always < values of other types
+            self.assertLess(Vegetable.OKRA, Vegetable.OKRA.canonical_name)
+            self.assertLess(Vegetable.OKRA, 11)
+            self.assertLess(Vegetable.OKRA, {'foo': 'bar'})
 
-        # ...even if the other type is also descended from RichEnumValue
-        other_okra = RichEnumValue('okra', 'Okra')
-        self.assertLess(Vegetable.OKRA, other_okra)
+            # ...even if the other type is also descended from RichEnumValue
+            other_okra = RichEnumValue('okra', 'Okra')
+            self.assertLess(Vegetable.OKRA, other_okra)
 
     def test_not_equal_to_other_types(self):
-        # RichEnumValues are always != values of other types
-        self.assertNotEqual(Vegetable.OKRA, Vegetable.OKRA.canonical_name)
-        self.assertNotEqual(Vegetable.OKRA, 11)
-        self.assertNotEqual(Vegetable.OKRA, {'foo': 'bar'})
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')  # Clean test output
+            # RichEnumValues are always != values of other types
+            self.assertNotEqual(Vegetable.OKRA, Vegetable.OKRA.canonical_name)
+            self.assertNotEqual(Vegetable.OKRA, 11)
+            self.assertNotEqual(Vegetable.OKRA, {'foo': 'bar'})
 
-        # ...even if the other type is also descended from RichEnumValue
-        other_okra = RichEnumValue('okra', 'Okra')
-        self.assertNotEqual(Vegetable.OKRA, other_okra)
+            # ...even if the other type is also descended from RichEnumValue
+            other_okra = RichEnumValue('okra', 'Okra')
+            self.assertNotEqual(Vegetable.OKRA, other_okra)
 
     def test_compares_by_canonical_name(self):
         # 'broccoli' < 'okra'
@@ -117,3 +124,9 @@ class RichEnumTestSuite(unittest.TestCase):
         okra_copy = copy.deepcopy(Vegetable.OKRA)
         self.assertFalse(okra_copy is Vegetable.OKRA)
         self.assertEqual(Vegetable.OKRA, okra_copy)
+
+    def test_comparisons_to_other_types_raise_warnings(self):
+        with warnings.catch_warnings(record=True) as warnings_raised:
+            self.assertNotEqual(Vegetable.OKRA, 'okra')
+            self.assertLess(Vegetable.OKRA, 'okra')
+            self.assertEqual(len(warnings_raised), 2)

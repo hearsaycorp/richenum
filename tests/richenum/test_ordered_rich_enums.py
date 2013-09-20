@@ -1,5 +1,6 @@
 import copy
 import unittest2 as unittest
+import warnings
 
 from richenum import EnumConstructionException
 from richenum import EnumLookupError
@@ -62,9 +63,11 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
     def test_membership(self):
         self.assertTrue(Breakfast.COFFEE in Breakfast)
         self.assertTrue(coffee in Breakfast)
-        self.assertFalse('coffee' in Breakfast)
-        self.assertFalse('Coffee' in Breakfast)
-        self.assertFalse(0 in Breakfast)
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            self.assertFalse('coffee' in Breakfast)
+            self.assertFalse('Coffee' in Breakfast)
+            self.assertFalse(0 in Breakfast)
 
     def test_public_members_must_be_ordered(self):
         # Can't mix OrderedRichEnumValues and RichEnumValues.
@@ -74,24 +77,28 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
                 TEA = RichEnumValue('tea', 'Tea')
 
     def test_less_than_other_types(self):
-        # RichEnumValues are always < values of other types
-        self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
-        self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.index)
-        self.assertLess(Breakfast.COFFEE, {'foo': 'bar'})
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')  # Clean test output
+            # RichEnumValues are always < values of other types
+            self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
+            self.assertLess(Breakfast.COFFEE, Breakfast.COFFEE.index)
+            self.assertLess(Breakfast.COFFEE, {'foo': 'bar'})
 
-        # ...even if the other type is also descended from OrderedRichEnumValue
-        other_coffee = OrderedRichEnumValue(0, 'coffee', 'Coffee')
-        self.assertLess(Breakfast.COFFEE, other_coffee)
+            # ...even if the other type is also descended from OrderedRichEnumValue
+            other_coffee = OrderedRichEnumValue(0, 'coffee', 'Coffee')
+            self.assertLess(Breakfast.COFFEE, other_coffee)
 
     def test_not_equal_to_other_types(self):
-        # RichEnumValues are always != values of other types
-        self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
-        self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.index)
-        self.assertNotEqual(Breakfast.COFFEE, {'foo': 'bar'})
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')  # Clean test output
+            # RichEnumValues are always != values of other types
+            self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.canonical_name)
+            self.assertNotEqual(Breakfast.COFFEE, Breakfast.COFFEE.index)
+            self.assertNotEqual(Breakfast.COFFEE, {'foo': 'bar'})
 
-        # ...even if the other type is also descended from OrderedRichEnumValue
-        other_coffee = OrderedRichEnumValue(0, 'coffee', 'coffee')
-        self.assertNotEqual(Breakfast.COFFEE, other_coffee)
+            # ...even if the other type is also descended from OrderedRichEnumValue
+            other_coffee = OrderedRichEnumValue(0, 'coffee', 'coffee')
+            self.assertNotEqual(Breakfast.COFFEE, other_coffee)
 
     def test_compares_by_index(self):
         self.assertLess(Breakfast.COFFEE, Breakfast.OATMEAL)
@@ -101,3 +108,9 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         coffee_copy = copy.deepcopy(Breakfast.COFFEE)
         self.assertFalse(coffee_copy is Breakfast.COFFEE)
         self.assertEqual(Breakfast.COFFEE, coffee_copy)
+
+    def test_comparisons_to_other_types_raise_warnings(self):
+        with warnings.catch_warnings(record=True) as warnings_raised:
+            self.assertNotEqual(Breakfast.COFFEE, 0)
+            self.assertLess(Breakfast.COFFEE, 'coffee')
+            self.assertEqual(len(warnings_raised), 2)

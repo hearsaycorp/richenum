@@ -1,6 +1,7 @@
 import collections
 import copy
 import new
+import warnings
 
 from operator import itemgetter
 
@@ -15,6 +16,13 @@ class EnumConstructionException(Exception):
 class EnumLookupError(Exception):
     """
     Raised when an enum cannot be found by the specified method of lookup.
+    """
+    pass
+
+
+class EnumComparisonWarning(Warning):
+    """
+    Raised when comparing an enum to a value of another type.
     """
     pass
 
@@ -67,11 +75,17 @@ class RichEnumValue(object):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
+            warnings.warn(
+                'Comparing a %s to a %s!' % (type(other), type(self)),
+                EnumComparisonWarning)
             return -1
         return cmp(self.canonical_name, other.canonical_name)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
+            warnings.warn(
+                'Comparing a %s to a %s!' % (type(other), type(self)),
+                EnumComparisonWarning)
             return False
         return self.canonical_name == other.canonical_name
 
@@ -107,11 +121,17 @@ class OrderedRichEnumValue(RichEnumValue):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
+            warnings.warn(
+                'Comparing a %s to a %s!' % (type(other), type(self)),
+                EnumComparisonWarning)
             return -1
         return cmp(self.index, other.index)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
+            warnings.warn(
+                'Comparing a %s to a %s!' % (type(other), type(self)),
+                EnumComparisonWarning)
             return False
         return self.index == other.index
 

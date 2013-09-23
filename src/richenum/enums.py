@@ -8,6 +8,9 @@ import warnings
 from operator import itemgetter
 
 
+logger = logging.getLogger(__name__)
+
+
 class EnumConstructionException(Exception):
     """
     Raised whenever there's an error in an Enum's declaration.
@@ -95,7 +98,7 @@ class RichEnumValue(object):
             'Comparing a %s to a %s!' % (type(other), type(self)),
             EnumComparisonWarning,
             stacklevel=3)  # Complain about _warn_about_compare's caller's caller
-        logging.debug(''.join(traceback.format_stack()))
+        logger.debug(''.join(traceback.format_stack()))
 
     def choicify(self, value_field="canonical_name", display_field="display_name"):
         """

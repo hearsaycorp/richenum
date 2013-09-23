@@ -1,9 +1,14 @@
 import collections
 import copy
+import logging
 import new
+import traceback
 import warnings
 
 from operator import itemgetter
+
+
+logger = logging.getLogger(__name__)
 
 
 class EnumConstructionException(Exception):
@@ -75,22 +80,25 @@ class RichEnumValue(object):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return -1
         return cmp(self.canonical_name, other.canonical_name)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return False
         return self.canonical_name == other.canonical_name
 
     def __ne__(self, other):
         return not (self.__eq__(other))
+
+    def _warn_about_compare(self, other):
+        warnings.warn(
+            'Comparing a %s to a %s!' % (type(other), type(self)),
+            EnumComparisonWarning,
+            stacklevel=3)  # Complain about _warn_about_compare's caller's caller
+        logger.debug(''.join(traceback.format_stack()))
 
     def choicify(self, value_field="canonical_name", display_field="display_name"):
         """
@@ -121,22 +129,15 @@ class OrderedRichEnumValue(RichEnumValue):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return -1
         return cmp(self.index, other.index)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return False
         return self.index == other.index
-
-    def __ne__(self, other):
-        return not (self.__eq__(other))
 
 
 def _setup_members(cls_attrs, cls_parents, member_cls):

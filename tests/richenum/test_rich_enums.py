@@ -129,4 +129,5 @@ class RichEnumTestSuite(unittest.TestCase):
         with warnings.catch_warnings(record=True) as warnings_raised:
             self.assertNotEqual(Vegetable.OKRA, 'okra')
             self.assertLess(Vegetable.OKRA, 'okra')
-            self.assertEqual(len(warnings_raised), 2)
+            # != comparisons raise two warnings.
+            self.assertEqual(len(warnings_raised), 3)

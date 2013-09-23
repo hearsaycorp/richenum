@@ -75,22 +75,25 @@ class RichEnumValue(object):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return -1
         return cmp(self.canonical_name, other.canonical_name)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return False
         return self.canonical_name == other.canonical_name
 
     def __ne__(self, other):
+        if not isinstance(other, type(self)):
+            # Warn again here so we capture the correct caller.
+            self._warn_about_compare(other)
         return not (self.__eq__(other))
+
+    def _warn_about_compare(self, other):
+        w = EnumComparisonWarning('Comparing a %s to a %s!' % (type(other), type(self)))
+        warnings.warn(w, stacklevel=3)  # Complain about _warn_about_compare's caller's caller
 
     def choicify(self, value_field="canonical_name", display_field="display_name"):
         """
@@ -121,22 +124,15 @@ class OrderedRichEnumValue(RichEnumValue):
 
     def __cmp__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return -1
         return cmp(self.index, other.index)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
-            warnings.warn(
-                'Comparing a %s to a %s!' % (type(other), type(self)),
-                EnumComparisonWarning)
+            self._warn_about_compare(other)
             return False
         return self.index == other.index
-
-    def __ne__(self, other):
-        return not (self.__eq__(other))
 
 
 def _setup_members(cls_attrs, cls_parents, member_cls):

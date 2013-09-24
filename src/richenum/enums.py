@@ -145,6 +145,7 @@ def _setup_members(cls_attrs, cls_parents, member_cls):
         # Find qualified "EnumValue" attributes.
         # Field names must be UPPERCASE, not prefixed with _ ("internal"),
         # and values must be EnumValue-derived.
+        last_type = None
         for attr_key, attr_value in cls_attrs.items():
             # Skip "internal" attributes
             if attr_key.startswith("_"):
@@ -157,6 +158,13 @@ def _setup_members(cls_attrs, cls_parents, member_cls):
                 members.append(attr_value)
             else:
                 raise EnumConstructionException("Invalid attribute: %s" % attr_key)
+
+            attr_type = type(attr_value)
+            if last_type and attr_type != last_type:
+                raise EnumConstructionException("Differing member types: have seen %s,"
+                                                " encountered %s" % (last_type, attr_type))
+            else:
+                last_type = attr_type
 
         if cls_parents not in [(object, ), (_EnumMethods, )] and not members:
             raise EnumConstructionException(

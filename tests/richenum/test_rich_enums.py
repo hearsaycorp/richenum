@@ -37,11 +37,10 @@ class RichEnumTestSuite(unittest.TestCase):
 
     def test_membership(self):
         self.assertTrue(Vegetable.OKRA in Vegetable)
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
-            # Doesn't work with canonical or display names.
-            self.assertFalse('okra' in Vegetable)
-            self.assertFalse('Okra' in Vegetable)
+
+        # Doesn't work with canonical or display names.
+        self.assertFalse('okra' in Vegetable)
+        self.assertFalse('Okra' in Vegetable)
 
         parsnip = VegetableEnumValue('yum', 'parsnip', 'Parsnip')
         self.assertFalse(parsnip in Vegetable)

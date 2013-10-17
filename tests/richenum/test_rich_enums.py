@@ -109,6 +109,7 @@ class RichEnumTestSuite(unittest.TestCase):
             self.assertLess(Vegetable.OKRA, other_okra)
 
     def test_not_equal_to_other_types(self):
+        self.assertNotEqual(Vegetable.OKRA, None)
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')  # Clean test output
             # RichEnumValues are always != values of other types
@@ -134,4 +135,6 @@ class RichEnumTestSuite(unittest.TestCase):
         with warnings.catch_warnings(record=True) as warnings_raised:
             self.assertNotEqual(Vegetable.OKRA, 'okra')
             self.assertLess(Vegetable.OKRA, 'okra')
+            # Don't raise warnings for Nones
+            self.assertLess(Vegetable.OKRA, None)
             self.assertEqual(len(warnings_raised), 2)

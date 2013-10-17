@@ -89,6 +89,7 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
             self.assertLess(Breakfast.COFFEE, other_coffee)
 
     def test_not_equal_to_other_types(self):
+        self.assertNotEqual(Breakfast.COFFEE, None)
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')  # Clean test output
             # RichEnumValues are always != values of other types
@@ -113,4 +114,6 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         with warnings.catch_warnings(record=True) as warnings_raised:
             self.assertNotEqual(Breakfast.COFFEE, 0)
             self.assertLess(Breakfast.COFFEE, 'coffee')
+            # Don't raise errors when comparing to None.
+            self.assertLess(Breakfast.COFFEE, None)
             self.assertEqual(len(warnings_raised), 2)

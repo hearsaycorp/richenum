@@ -79,12 +79,16 @@ class RichEnumValue(object):
         return hash(self.canonical_name)
 
     def __cmp__(self, other):
+        if other is None:
+            return -1
         if not isinstance(other, type(self)):
             self._warn_about_compare(other)
             return -1
         return cmp(self.canonical_name, other.canonical_name)
 
     def __eq__(self, other):
+        if other is None:
+            return False
         if not isinstance(other, type(self)):
             self._warn_about_compare(other)
             return False
@@ -128,12 +132,16 @@ class OrderedRichEnumValue(RichEnumValue):
                           self.display_name))
 
     def __cmp__(self, other):
+        if other is None:
+            return -1
         if not isinstance(other, type(self)):
             self._warn_about_compare(other)
             return -1
         return cmp(self.index, other.index)
 
     def __eq__(self, other):
+        if other is None:
+            return False
         if not isinstance(other, type(self)):
             self._warn_about_compare(other)
             return False
@@ -181,6 +189,15 @@ class _BaseRichEnumMetaclass(type):
 
     def __len__(cls):
         return len(cls._MEMBERS)
+
+    def __contains__(cls, item):
+        # Check membership without comparing enum values to other types.
+        members = cls.members()
+        if not members:
+            return False
+        if not type(members[0]) == type(item):
+            return False
+        return (item in members)
 
 
 class _RichEnumMetaclass(_BaseRichEnumMetaclass):

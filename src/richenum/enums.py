@@ -182,6 +182,15 @@ class _BaseRichEnumMetaclass(type):
     def __len__(cls):
         return len(cls._MEMBERS)
 
+    def __contains__(cls, item):
+        # Check membership without comparing enum values to other types.
+        members = cls.members()
+        if not members:
+            return False
+        if not type(members[0]) == type(item):
+            return False
+        return (item in members)
+
 
 class _RichEnumMetaclass(_BaseRichEnumMetaclass):
     def __new__(cls, cls_name, cls_parents, cls_attrs):

@@ -242,8 +242,18 @@ class _EnumMethods(object):
     def lookup(cls, field, value):
         for member in cls:
             member_value = getattr(member, field)
-            if member_value == value:
-                return member
+
+            # We filter warnings below; in the case where the field is a list
+            # of RichEnumValues and the value we're looking for is a RichEnum,
+            # this generates a warning due to mismatched type comparison even
+            # though the calling pattern is acceptable.
+            # n.b. There's likely a cleaner way to fix this but I was unsure if
+            # doing so would break the semantics of this method.
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                if member_value == value:
+                    return member
+
             if (
                 not isinstance(member_value, str) and
                 not isinstance(member_value, unicode) and

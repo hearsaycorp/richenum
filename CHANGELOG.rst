@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.3 (2013-11-27)
+------------------
+    -  Remove warning messages when making lookup() calls against members that are lists
+    by checking to see if the member is an iterable first.
+
 1.0.2 (2013-11-05)
 ------------------
     - Suppress warnings from mismatched type comparisons when generated

@@ -249,18 +249,18 @@ class _EnumMethods(object):
             # though the calling pattern is acceptable.
             # n.b. There's likely a cleaner way to fix this but I was unsure if
             # doing so would break the semantics of this method.
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore')
-                if member_value == value:
-                    return member
-
             if (
                 not isinstance(member_value, str) and
                 not isinstance(member_value, unicode) and
-                isinstance(member_value, collections.Iterable) and
-                value in member_value
-            ):
-                return member
+                    isinstance(member_value, collections.Iterable)):
+                if value in member_value:
+                    return member
+            else:
+                with warnings.catch_warnings():
+                    warnings.simplefilter('ignore')
+                    if member_value == value:
+                        return member
+
         raise EnumLookupError('Could not find member matching %s = %s in enum %s'
                               % (field, value, cls)
                               )

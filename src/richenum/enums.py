@@ -2,8 +2,6 @@ import collections
 import copy
 import logging
 import new
-import traceback
-import warnings
 
 from operator import itemgetter
 
@@ -21,13 +19,6 @@ class EnumConstructionException(Exception):
 class EnumLookupError(Exception):
     """
     Raised when an enum cannot be found by the specified method of lookup.
-    """
-    pass
-
-
-class EnumComparisonWarning(Warning):
-    """
-    Raised when comparing an enum to a value of another type.
     """
     pass
 
@@ -82,7 +73,6 @@ class RichEnumValue(object):
         if other is None:
             return -1
         if not isinstance(other, type(self)):
-            self._warn_about_compare(other)
             return -1
         return cmp(self.canonical_name, other.canonical_name)
 
@@ -90,19 +80,11 @@ class RichEnumValue(object):
         if other is None:
             return False
         if not isinstance(other, type(self)):
-            self._warn_about_compare(other)
             return False
         return self.canonical_name == other.canonical_name
 
     def __ne__(self, other):
         return not (self.__eq__(other))
-
-    def _warn_about_compare(self, other):
-        warnings.warn(
-            'Comparing a %s to a %s!' % (type(other), type(self)),
-            EnumComparisonWarning,
-            stacklevel=3)  # Complain about _warn_about_compare's caller's caller
-        logger.debug(''.join(traceback.format_stack()))
 
     def choicify(self, value_field="canonical_name", display_field="display_name"):
         """
@@ -135,7 +117,6 @@ class OrderedRichEnumValue(RichEnumValue):
         if other is None:
             return -1
         if not isinstance(other, type(self)):
-            self._warn_about_compare(other)
             return -1
         return cmp(self.index, other.index)
 
@@ -143,7 +124,6 @@ class OrderedRichEnumValue(RichEnumValue):
         if other is None:
             return False
         if not isinstance(other, type(self)):
-            self._warn_about_compare(other)
             return False
         return self.index == other.index
 
@@ -243,16 +223,8 @@ class _EnumMethods(object):
         for member in cls:
             member_value = getattr(member, field)
 
-            # We filter warnings below; in the case where the field is a list
-            # of RichEnumValues and the value we're looking for is a RichEnum,
-            # this generates a warning due to mismatched type comparison even
-            # though the calling pattern is acceptable.
-            # n.b. There's likely a cleaner way to fix this but I was unsure if
-            # doing so would break the semantics of this method.
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore')
-                if member_value == value:
-                    return member
+            if member_value == value:
+                return member
 
             if (
                 not isinstance(member_value, str) and

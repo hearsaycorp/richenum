@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.3 (2013-12-03)
+------------------
+    - Stop throwing warnings.
+
 1.0.2 (2013-11-05)
 ------------------
     - Suppress warnings from mismatched type comparisons when generated

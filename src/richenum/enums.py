@@ -56,15 +56,15 @@ class RichEnumValue(object):
         self.display_name = display_name
 
     def __unicode__(self):
-        return unicode(self.display_name)
+        return unicode(self.canonical_name)
 
     def __repr__(self):
         return unicode("%s - canonical_name: '%s'  display_name: '%s'" % (self.__class__.__name__,
                                                                           self.canonical_name,
-                                                                          self.display_name))
+                                                                          str(self.display_name)))
 
     def __str__(self):
-        return self.display_name
+        return self.canonical_name
 
     def __hash__(self):
         return hash(self.canonical_name)
@@ -111,7 +111,7 @@ class OrderedRichEnumValue(RichEnumValue):
                        % (self.__class__.__name__,
                           self.index,
                           self.canonical_name,
-                          self.display_name))
+                          str(self.display_name)))
 
     def __cmp__(self, other):
         if other is None:

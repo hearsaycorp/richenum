@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import copy
 import unittest2 as unittest
 
@@ -125,3 +126,9 @@ class RichEnumTestSuite(unittest.TestCase):
         okra_copy = copy.deepcopy(Vegetable.OKRA)
         self.assertFalse(okra_copy is Vegetable.OKRA)
         self.assertEqual(Vegetable.OKRA, okra_copy)
+
+    def test_unicode_handling(self):
+        poop_okra = VegetableEnumValue('gross', 'okra💩', u'Okra💩')
+        self.assertEqual(repr(poop_okra), "<VegetableEnumValue: okra? ('Okra?')>")
+        self.assertEqual(str(poop_okra), "Okra💩")
+        self.assertEqual(unicode(poop_okra), u"Okra💩")

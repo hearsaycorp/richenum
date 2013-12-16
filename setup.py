@@ -10,7 +10,7 @@ tests_require = [
 
 setup(
     name='richenum',
-    version='1.0.3',
+    version='1.0.4',
     description='Enum library for python.',
     long_description=(
         open('README.rst').read() + '\n\n' +

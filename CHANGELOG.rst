@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.0.4 (2013-12-03)
+------------------
+    - Better unicode handling in ``__str__``, ``__unicode__``, and
+      ``__repr__`` magic methods.
+
 1.0.3 (2013-12-03)
 ------------------
     - Stop throwing warnings.

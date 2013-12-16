@@ -55,16 +55,17 @@ class RichEnumValue(object):
         self.canonical_name = canonical_name
         self.display_name = display_name
 
+    def __repr__(self):
+        return "<%s: %s ('%s')>" % (
+            self.__class__.__name__,
+            self.canonical_name.decode('utf-8', 'replace').encode('ascii', 'replace'),
+            unicode(self.display_name).encode('ascii', 'replace'))
+
     def __unicode__(self):
         return unicode(self.display_name)
 
-    def __repr__(self):
-        return unicode("%s - canonical_name: '%s'  display_name: '%s'" % (self.__class__.__name__,
-                                                                          self.canonical_name,
-                                                                          self.display_name))
-
     def __str__(self):
-        return self.display_name
+        return unicode(self).encode('utf-8', 'xmlcharrefreplace')
 
     def __hash__(self):
         return hash(self.canonical_name)
@@ -107,11 +108,11 @@ class OrderedRichEnumValue(RichEnumValue):
         self.index = index
 
     def __repr__(self):
-        return unicode("%s - idx: %d  canonical_name: '%s'  display_name: '%s'"
-                       % (self.__class__.__name__,
-                          self.index,
-                          self.canonical_name,
-                          self.display_name))
+        return "<%s #%s: %s ('%s')>" % (
+            self.__class__.__name__,
+            self.index,
+            self.canonical_name.decode('utf-8', 'replace').encode('ascii', 'replace'),
+            unicode(self.display_name).encode('ascii', 'replace'))
 
     def __cmp__(self, other):
         if other is None:

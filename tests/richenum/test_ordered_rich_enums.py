@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import copy
 import unittest2 as unittest
 
@@ -102,3 +103,9 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         coffee_copy = copy.deepcopy(Breakfast.COFFEE)
         self.assertFalse(coffee_copy is Breakfast.COFFEE)
         self.assertEqual(Breakfast.COFFEE, coffee_copy)
+
+    def test_unicode_handling(self):
+        poop_oatmeal = BreakfastEnumValue(3, 'oatmeal💩', u'Oatmeal💩')
+        self.assertEqual(repr(poop_oatmeal), "<BreakfastEnumValue #3: oatmeal? ('Oatmeal?')>")
+        self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
+        self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")

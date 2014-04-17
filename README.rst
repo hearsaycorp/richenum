@@ -99,6 +99,11 @@ django-richenum
 
   | `PyPi <https://pypi.python.org/pypi/django-richenum/>`_
 
+enum
+  Starting with Python 3.4, there is a standard library for enumerations.
+  This class has a similar API, but is not directly compatible with that
+  class.
+
 
 ============
 Contributing

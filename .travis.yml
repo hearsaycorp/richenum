@@ -2,13 +2,13 @@ language: python
 python:
   - "2.6"
   - "2.7"
+  - "3.3"
 install:
   # pylint needs unittest2 to check the test code.
-  - "pip install -q flake8 pylint unittest2 --use-mirrors"
-  - "pip install -e . --use-mirrors"
+  - "pip install -q flake8 pylint unittest2 nose six --use-mirrors"
 before_script:
   - "flake8 tests src setup.py"
   - "pylint -E src/richenum"
   - "pylint -E tests/richenum"
   - "pylint -E setup.py"
-script: "python setup.py test"
+script: "nosetests -s -v"

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0 (2014-04-17)
+------------------
+    - support for Python 3 and PyPy
+
 1.0.4 (2013-12-03)
 ------------------
     - Better unicode handling in ``__str__``, ``__unicode__``, and

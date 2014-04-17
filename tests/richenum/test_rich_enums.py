@@ -142,7 +142,7 @@ class RichEnumTestSuite(unittest.TestCase):
         poop_okra = VegetableEnumValue('gross', u'okra💩', u'Okra💩')
         self.assertRegexpMatches(
             repr(poop_okra),
-            "<VegetableEnumValue: okra. \('Okra.'\)>",
+            "<VegetableEnumValue: okra..? \('Okra..?'\)>",
         )
         self.assertEqual(str(poop_okra), "Okra💩")
         if not PY3:

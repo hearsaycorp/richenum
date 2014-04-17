@@ -35,7 +35,7 @@ def _str_or_ascii_replace(stringy):
         return stringy
     else:
         if isinstance(stringy, str):
-            stringy = stringy.decode('utf-8', 'replace')
+            stringy = stringy.decode('utf-8')
         return stringy.encode('ascii', 'replace')
 
 

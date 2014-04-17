@@ -117,7 +117,7 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         poop_oatmeal = BreakfastEnumValue(3, u'oatmeal💩', u'Oatmeal💩')
         self.assertRegexpMatches(
             repr(poop_oatmeal),
-            r"<BreakfastEnumValue #3: oatmeal. \('Oatmeal.'\)>",
+            r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>",
         )
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
         if not PY3:

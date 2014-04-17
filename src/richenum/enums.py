@@ -68,7 +68,10 @@ def enum(**enums):
     en = copy.deepcopy(enums)
     e = type('Enum', (_EnumMethods,), dict((k, v) for k, v in _items(en)))
 
-    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]  # DEPRECATED
+    try:
+        e.choices = [(v, k) for k, v in sorted(_items(enums), key=itemgetter(1))]  # DEPRECATED
+    except TypeError:
+        pass
     e.get_id_by_label = e.__dict__.get
     e.get_label_by_id = dict((v, k) for (k, v) in _items(enums)).get
 

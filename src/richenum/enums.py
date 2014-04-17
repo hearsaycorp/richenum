@@ -1,6 +1,7 @@
 import collections
 import copy
 import logging
+import numbers
 from six import PY3
 from six import string_types
 
@@ -126,7 +127,7 @@ class RichEnumValue(object):
 class OrderedRichEnumValue(RichEnumValue):
     def __init__(self, index, canonical_name, display_name, *args, **kwargs):
         super(OrderedRichEnumValue, self).__init__(canonical_name, display_name, args, kwargs)
-        if not isinstance(index, (int, long)):
+        if not isinstance(index, numbers.Integral):
             raise EnumConstructionException("Index must be an integer type, not: %s" % type(index))
         if index < 0:
             raise EnumConstructionException("Index cannot be a negative number")

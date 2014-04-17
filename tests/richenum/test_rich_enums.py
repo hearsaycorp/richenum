@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=E1101
+
 import copy
 import unittest2 as unittest
 
@@ -33,7 +35,7 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Vegetable.BROCCOLI, broccoli)
 
         with self.assertRaises(AttributeError):
-            Vegetable.PARSNIP  # pylint: disable=E1101
+            Vegetable.PARSNIP
 
     def test_membership(self):
         self.assertTrue(Vegetable.OKRA in Vegetable)
@@ -50,27 +52,27 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(members, (Vegetable.OKRA, Vegetable.BROCCOLI))
 
     def test_lookup_by_canonical_name(self):
-        self.assertEqual(Vegetable.from_canonical('okra'), Vegetable.OKRA)  # pylint: disable=E1101
+        self.assertEqual(Vegetable.from_canonical('okra'), Vegetable.OKRA)
         with self.assertRaises(EnumLookupError):
-            Vegetable.from_canonical('parsnip')  # pylint: disable=E1101
+            Vegetable.from_canonical('parsnip')
 
     def test_lookup_by_display_name(self):
-        self.assertEqual(Vegetable.from_display('Okra'), Vegetable.OKRA)  # pylint: disable=E1101
+        self.assertEqual(Vegetable.from_display('Okra'), Vegetable.OKRA)
         with self.assertRaises(EnumLookupError):
-            Vegetable.from_display('Parsnip')  # pylint: disable=E1101
+            Vegetable.from_display('Parsnip')
 
     def test_generic_lookup(self):
-        self.assertEqual(Vegetable.lookup('canonical_name', 'okra'), Vegetable.OKRA)  # pylint: disable=E1101
-        self.assertEqual(Vegetable.lookup('flavor', 'gross'), Vegetable.OKRA)  # pylint: disable=E1101
+        self.assertEqual(Vegetable.lookup('canonical_name', 'okra'), Vegetable.OKRA)
+        self.assertEqual(Vegetable.lookup('flavor', 'gross'), Vegetable.OKRA)
         with self.assertRaises(EnumLookupError):
-            Vegetable.lookup('flavor', 'yum')  # pylint: disable=E1101
+            Vegetable.lookup('flavor', 'yum')
 
     def test_choices(self):
         self.assertEqual(
-            Vegetable.choices(),  # pylint: disable=E1101
+            Vegetable.choices(),
             [('okra', 'Okra'), ('broccoli', 'Broccoli')])
         self.assertEqual(
-            Vegetable.choices(value_field='flavor', display_field='canonical_name'),  # pylint: disable=E1101
+            Vegetable.choices(value_field='flavor', display_field='canonical_name'),
             [('gross', 'okra'), ('delicious', 'broccoli')])
 
     def test_public_members_must_be_enum_values(self):

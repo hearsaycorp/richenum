@@ -5,7 +5,8 @@ python:
   - "pypy"
 install:
   # pylint needs unittest2 to check the test code.
-  - "pip install -q flake8 pylint unittest2 nose six --use-mirrors"
+  - "pip install -q flake8 pylint nose six --use-mirrors"
+  - python -c "import six; exit(not six.PY3)" || pip install unittest2
 before_script:
   - "flake8 tests src setup.py"
   - "pylint -E src/richenum"

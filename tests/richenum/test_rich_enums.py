@@ -52,8 +52,8 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertFalse(parsnip in Vegetable)
 
     def test_enums_iterate_through_members(self):
-        members = tuple(e for e in Vegetable)
-        self.assertEqual(members, (Vegetable.OKRA, Vegetable.BROCCOLI))
+        members = set(e for e in Vegetable)
+        self.assertEqual(members, set((Vegetable.OKRA, Vegetable.BROCCOLI)))
 
     def test_lookup_by_canonical_name(self):
         self.assertEqual(Vegetable.from_canonical('okra'), Vegetable.OKRA)
@@ -73,11 +73,14 @@ class RichEnumTestSuite(unittest.TestCase):
 
     def test_choices(self):
         self.assertEqual(
-            Vegetable.choices(),
-            [('okra', 'Okra'), ('broccoli', 'Broccoli')])
+            set(x for x in Vegetable.choices()),
+            set((('okra', 'Okra'), ('broccoli', 'Broccoli'))),
+        )
+
         self.assertEqual(
-            Vegetable.choices(value_field='flavor', display_field='canonical_name'),
-            [('gross', 'okra'), ('delicious', 'broccoli')])
+            set(x for x in Vegetable.choices(value_field='flavor', display_field='canonical_name')),
+            set((('gross', 'okra'), ('delicious', 'broccoli'))),
+        )
 
     def test_public_members_must_be_enum_values(self):
         with self.assertRaisesRegexp(EnumConstructionException, 'Invalid attribute'):

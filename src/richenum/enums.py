@@ -1,7 +1,6 @@
 import collections
 import copy
 import logging
-import new
 from six import PY3
 from six import string_types
 
@@ -66,11 +65,11 @@ def enum(**enums):
     # Cheating by maintaining a copy of original dict for iteration b/c iterators are hard.
     # It must be a deepcopy because new.classobj() modifies the original.
     en = copy.deepcopy(enums)
-    e = new.classobj('Enum', (), enums)
-    e._dict = en
-    e.choices = [(v, k) for k, v in sorted(_items(en), key=itemgetter(1))]  # DEPRECATED
-    e.get_id_by_label = e._dict.get
-    e.get_label_by_id = dict([(v, k) for (k, v) in _items(e._dict)]).get
+    e = type('Enum', (_EnumMethods,), dict((k, v) for k, v in _items(en)))
+
+    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]  # DEPRECATED
+    e.get_id_by_label = e.__dict__.get
+    e.get_label_by_id = dict((v, k) for (k, v) in _items(enums)).get
 
     return e
 

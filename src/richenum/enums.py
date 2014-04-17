@@ -1,5 +1,6 @@
 import collections
 import copy
+from functools import total_ordering
 import logging
 import numbers
 from six import PY3
@@ -79,6 +80,7 @@ def enum(**enums):
     return e
 
 
+@total_ordering
 class RichEnumValue(object):
     def __init__(self, canonical_name, display_name, *args, **kwargs):
         self.canonical_name = canonical_name
@@ -101,12 +103,12 @@ class RichEnumValue(object):
     def __hash__(self):
         return hash(self.canonical_name)
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
         if other is None:
             return -1
         if not isinstance(other, type(self)):
             return -1
-        return cmp(self.canonical_name, other.canonical_name)
+        return self.canonical_name < other.canonical_name
 
     def __eq__(self, other):
         if other is None:
@@ -128,6 +130,7 @@ class RichEnumValue(object):
         return (getattr(self, value_field), getattr(self, display_field))
 
 
+@total_ordering
 class OrderedRichEnumValue(RichEnumValue):
     def __init__(self, index, canonical_name, display_name, *args, **kwargs):
         super(OrderedRichEnumValue, self).__init__(canonical_name, display_name, args, kwargs)
@@ -146,19 +149,17 @@ class OrderedRichEnumValue(RichEnumValue):
             _str_or_ascii_replace(self.display_name),
         )
 
-    def __cmp__(self, other):
-        if other is None:
-            return -1
-        if not isinstance(other, type(self)):
-            return -1
-        return cmp(self.index, other.index)
+    def __lt__(self, other):
+        if isinstance(other, type(self)):
+            return self.index < other.index
+        else:
+            return True
 
     def __eq__(self, other):
-        if other is None:
+        if isinstance(other, type(self)):
+            return self.index == other.index
+        else:
             return False
-        if not isinstance(other, type(self)):
-            return False
-        return self.index == other.index
 
 
 def _setup_members(cls_attrs, cls_parents, member_cls):

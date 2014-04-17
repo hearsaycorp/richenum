@@ -34,6 +34,20 @@ def _str_or_ascii_replace(stringy):
         return stringy.encode('ascii', 'replace')
 
 
+def _items(dict):
+    try:
+        return dict.iteritems()
+    except AttributeError:
+        return dict.items()
+
+
+def _values(dict):
+    try:
+        return dict.itervalues()
+    except AttributeError:
+        return dict.values()
+
+
 def enum(**enums):
     """
     A basic enum implementation.
@@ -46,7 +60,7 @@ def enum(**enums):
         2
     """
     # Enum values must be hashable to support reverse lookup.
-    if not all(isinstance(val, collections.Hashable) for val in enums.itervalues()):
+    if not all(isinstance(val, collections.Hashable) for val in _values(enums)):
         raise EnumConstructionException('All enum values must be hashable.')
 
     # Cheating by maintaining a copy of original dict for iteration b/c iterators are hard.
@@ -54,9 +68,9 @@ def enum(**enums):
     en = copy.deepcopy(enums)
     e = new.classobj('Enum', (), enums)
     e._dict = en
-    e.choices = [(v, k) for k, v in sorted(en.iteritems(), key=itemgetter(1))]  # DEPRECATED
+    e.choices = [(v, k) for k, v in sorted(_items(en), key=itemgetter(1))]  # DEPRECATED
     e.get_id_by_label = e._dict.get
-    e.get_label_by_id = dict([(v, k) for (k, v) in e._dict.items()]).get
+    e.get_label_by_id = dict([(v, k) for (k, v) in _items(e._dict)]).get
 
     return e
 

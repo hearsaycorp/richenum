@@ -4,6 +4,7 @@ import logging
 import numbers
 from six import PY3
 from six import string_types
+from six import with_metaclass
 
 from operator import itemgetter
 
@@ -187,7 +188,9 @@ def _setup_members(cls_attrs, cls_parents, member_cls):
             else:
                 last_type = attr_type
 
-        if cls_parents not in [(object, ), (_EnumMethods, )] and not members:
+        if "__virtual__" not in cls_attrs and cls_parents not in [
+                (object, ), (_EnumMethods, )
+        ] and not members:
             raise EnumConstructionException(
                 "Must specify at least one attribute when using RichEnum")
 
@@ -270,11 +273,11 @@ class _EnumMethods(object):
 
     @classmethod
     def from_canonical(cls, canonical_name):
-        return cls.lookup('canonical_name', canonical_name)
+        return cls.lookup('canonical_name', canonical_name)  # pylint: disable=E1101
 
     @classmethod
     def from_display(cls, display_name):
-        return cls.lookup('display_name', display_name)
+        return cls.lookup('display_name', display_name)  # pylint: disable=E1101
 
     @classmethod
     def choices(cls, value_field='canonical_name', display_field='display_name'):
@@ -291,7 +294,7 @@ class _EnumMethods(object):
         return [m.choicify(value_field=value_field, display_field=display_field) for m in cls.members()]
 
 
-class RichEnum(_EnumMethods):
+class RichEnum(with_metaclass(_RichEnumMetaclass, _EnumMethods)):
     """
     Enumeration that can represent a name for referencing (canonical_name) and
     a name for displaying (display_name).
@@ -316,10 +319,10 @@ class RichEnum(_EnumMethods):
            easier to differentiate between all of your different RichEnums.
 
    """
-    __metaclass__ = _RichEnumMetaclass
+    __virtual__ = True
 
 
-class OrderedRichEnum(_EnumMethods):
+class OrderedRichEnum(with_metaclass(_OrderedRichEnumMetaclass, _EnumMethods)):
     """
     Use OrderedRichEnum when you need a RichEnum with index-based
     access into the enum, e.g. OrderedRichEnumExample.from_index(0),
@@ -341,8 +344,8 @@ class OrderedRichEnum(_EnumMethods):
         >>> MyOrderedRichEnum.from_index(1)
         OrderedRichEnumValue - idx: 1  canonical_name: 'foo'  display_name: 'Foo'
     """
-    __metaclass__ = _OrderedRichEnumMetaclass
+    __virtual__ = True
 
     @classmethod
     def from_index(cls, index):
-        return cls.lookup('index', index)
+        return cls.lookup('index', index)  # pylint: disable=E1101

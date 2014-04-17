@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
+import sys
+
 from setuptools import setup, find_packages
 
 
-tests_require = [
-    'unittest2',
-]
+tests_require = []
+
+if sys.version_info.major == 2:
+    tests_require.append("unittest2")
 
 
 setup(

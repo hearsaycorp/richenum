@@ -2,7 +2,10 @@
 # pylint: disable=E1101
 
 import copy
-import unittest2 as unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from richenum import EnumConstructionException
 from richenum import EnumLookupError

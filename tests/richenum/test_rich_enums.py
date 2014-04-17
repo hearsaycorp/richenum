@@ -2,6 +2,7 @@
 # pylint: disable=E1101
 
 import copy
+from six import PY3
 try:
     import unittest2 as unittest
 except ImportError:
@@ -133,7 +134,11 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Vegetable.OKRA, okra_copy)
 
     def test_unicode_handling(self):
-        poop_okra = VegetableEnumValue('gross', 'okra💩', u'Okra💩')
-        self.assertEqual(repr(poop_okra), "<VegetableEnumValue: okra? ('Okra?')>")
+        poop_okra = VegetableEnumValue('gross', u'okra💩', u'Okra💩')
+        self.assertRegexpMatches(
+            repr(poop_okra),
+            "<VegetableEnumValue: okra. \('Okra.'\)>",
+        )
         self.assertEqual(str(poop_okra), "Okra💩")
-        self.assertEqual(unicode(poop_okra), u"Okra💩")
+        if not PY3:
+            self.assertEqual(unicode(poop_okra), u"Okra💩")

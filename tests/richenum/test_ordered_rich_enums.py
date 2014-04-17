@@ -3,6 +3,7 @@
 # pylint: disable=E1101
 
 import copy
+from six import PY3
 try:
     import unittest2 as unittest
 except ImportError:
@@ -111,7 +112,11 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Breakfast.COFFEE, coffee_copy)
 
     def test_unicode_handling(self):
-        poop_oatmeal = BreakfastEnumValue(3, 'oatmeal💩', u'Oatmeal💩')
-        self.assertEqual(repr(poop_oatmeal), "<BreakfastEnumValue #3: oatmeal? ('Oatmeal?')>")
+        poop_oatmeal = BreakfastEnumValue(3, u'oatmeal💩', u'Oatmeal💩')
+        self.assertRegexpMatches(
+            repr(poop_oatmeal),
+            r"<BreakfastEnumValue #3: oatmeal. \('Oatmeal.'\)>",
+        )
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
-        self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")
+        if not PY3:
+            self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")

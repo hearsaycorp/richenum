@@ -2,6 +2,8 @@ import collections
 import copy
 import logging
 import new
+from six import PY3
+from six import string_types
 
 from operator import itemgetter
 
@@ -21,6 +23,15 @@ class EnumLookupError(Exception):
     Raised when an enum cannot be found by the specified method of lookup.
     """
     pass
+
+
+def _str_or_ascii_replace(stringy):
+    if PY3:
+        return stringy
+    else:
+        if isinstance(stringy, str):
+            stringy = stringy.decode('utf-8', 'replace')
+        return stringy.encode('ascii', 'replace')
 
 
 def enum(**enums):
@@ -58,14 +69,16 @@ class RichEnumValue(object):
     def __repr__(self):
         return "<%s: %s ('%s')>" % (
             self.__class__.__name__,
-            self.canonical_name.decode('utf-8', 'replace').encode('ascii', 'replace'),
-            unicode(self.display_name).encode('ascii', 'replace'))
+            _str_or_ascii_replace(self.canonical_name),
+            _str_or_ascii_replace(self.display_name),
+        )
 
     def __unicode__(self):
         return unicode(self.display_name)
 
     def __str__(self):
-        return unicode(self).encode('utf-8', 'xmlcharrefreplace')
+        return self.display_name if PY3 else unicode(self).encode(
+            'utf-8', 'xmlcharrefreplace')
 
     def __hash__(self):
         return hash(self.canonical_name)
@@ -111,8 +124,9 @@ class OrderedRichEnumValue(RichEnumValue):
         return "<%s #%s: %s ('%s')>" % (
             self.__class__.__name__,
             self.index,
-            self.canonical_name.decode('utf-8', 'replace').encode('ascii', 'replace'),
-            unicode(self.display_name).encode('ascii', 'replace'))
+            _str_or_ascii_replace(self.canonical_name),
+            _str_or_ascii_replace(self.display_name),
+        )
 
     def __cmp__(self, other):
         if other is None:
@@ -228,8 +242,7 @@ class _EnumMethods(object):
                 return member
 
             if (
-                not isinstance(member_value, str) and
-                not isinstance(member_value, unicode) and
+                not isinstance(member_value, string_types) and
                 isinstance(member_value, collections.Iterable) and
                 value in member_value
             ):

@@ -9,6 +9,9 @@ from six import with_metaclass
 
 from operator import itemgetter
 
+if PY3:
+    unicode = str  # workaround for flake8
+
 
 logger = logging.getLogger(__name__)
 

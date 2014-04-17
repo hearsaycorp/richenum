@@ -8,6 +8,8 @@ try:
     import unittest2 as unittest
 except ImportError:
     import unittest
+if PY3:
+    unicode = str  # for flake8, mainly
 
 from richenum import EnumConstructionException
 from richenum import EnumLookupError

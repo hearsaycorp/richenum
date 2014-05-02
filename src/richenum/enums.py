@@ -165,11 +165,11 @@ def _setup_members(cls_attrs, cls_parents, member_cls):
 
 class _BaseRichEnumMetaclass(type):
     def __iter__(cls):
-        for item in cls._MEMBERS:
+        for item in cls.members():
             yield item
 
     def __len__(cls):
-        return len(cls._MEMBERS)
+        return len(cls.members())
 
     def __contains__(cls, item):
         # Check membership without comparing enum values to other types.

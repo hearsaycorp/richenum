@@ -3,6 +3,7 @@ python:
   - "2.7"
   - "3.3"
   - "pypy"
+sudo: false
 install:
   # pylint needs unittest2 to check the test code.
   - "pip install -q flake8 pylint nose six --use-mirrors"

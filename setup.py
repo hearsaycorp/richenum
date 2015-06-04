@@ -13,7 +13,7 @@ if sys.version_info.major == 2:
 
 setup(
     name='richenum',
-    version='1.0.5',
+    version='1.1.0',
     description='Enum library for python.',
     long_description=(
         open('README.rst').read() + '\n\n' +

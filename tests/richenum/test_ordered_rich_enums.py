@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
+
+# pylint: disable=E1101
+
 import copy
-import unittest2 as unittest
+from six import PY3
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+if PY3:
+    unicode = str  # for flake8, mainly
 
 from richenum import EnumConstructionException
 from richenum import EnumLookupError
@@ -32,16 +41,16 @@ class SadBreakfast(OrderedRichEnum):
 class OrderedRichEnumTestSuite(unittest.TestCase):
 
     def test_lookup_by_index(self):
-        self.assertEqual(Breakfast.from_index(0), coffee)  # pylint: disable=E1101
+        self.assertEqual(Breakfast.from_index(0), coffee)
         # Should work if enum isn't zero-indexed.
-        self.assertEqual(SadBreakfast.from_index(1), oatmeal)  # pylint: disable=E1101
+        self.assertEqual(SadBreakfast.from_index(1), oatmeal)
 
         with self.assertRaises(EnumLookupError):
-            SadBreakfast.from_index(7)  # pylint: disable=E1101
+            SadBreakfast.from_index(7)
 
     def test_construction_preserves_indices(self):
-        self.assertEqual(SadBreakfast.OATMEAL.index, 1)  # pylint: disable=E1101
-        self.assertEqual(Breakfast.OATMEAL.index, 1)  # pylint: disable=E1101
+        self.assertEqual(SadBreakfast.OATMEAL.index, 1)
+        self.assertEqual(Breakfast.OATMEAL.index, 1)
 
     def test_cannot_have_duplicate_indices(self):
         with self.assertRaisesRegexp(EnumConstructionException, 'Index already defined'):
@@ -105,7 +114,11 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Breakfast.COFFEE, coffee_copy)
 
     def test_unicode_handling(self):
-        poop_oatmeal = BreakfastEnumValue(3, 'oatmeal💩', u'Oatmeal💩')
-        self.assertEqual(repr(poop_oatmeal), "<BreakfastEnumValue #3: oatmeal? ('Oatmeal?')>")
+        poop_oatmeal = BreakfastEnumValue(3, u'oatmeal💩', u'Oatmeal💩')
+        self.assertRegexpMatches(
+            repr(poop_oatmeal),
+            r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>",
+        )
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
-        self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")
+        if not PY3:
+            self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")

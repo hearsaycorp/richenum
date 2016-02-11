@@ -10,10 +10,10 @@ except ImportError:
 if PY3:
     unicode = str  # for flake8, mainly
 
-from richenum import EnumConstructionException
-from richenum import EnumLookupError
-from richenum import RichEnum
-from richenum import RichEnumValue
+from richenum import EnumConstructionException  # noqa
+from richenum import EnumLookupError  # noqa
+from richenum import RichEnum  # noqa
+from richenum import RichEnumValue  # noqa
 
 
 class VegetableEnumValue(RichEnumValue):

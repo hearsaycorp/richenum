@@ -2,15 +2,16 @@ language: python
 python:
   - "2.7"
   - "3.3"
+  - "3.4"
+  - "3.5"
   - "pypy"
 sudo: false
 install:
   # pylint needs unittest2 to check the test code.
-  - "pip install -q flake8 pylint nose six --use-mirrors"
+  - "pip install -q flake8==2.5.2 pylint nose six"
   - python -c "import six; exit(not six.PY3)" || pip install unittest2
 before_script:
   - "flake8 tests src setup.py"
   - "pylint -E src/richenum"
-  - "pylint -E tests/richenum"
   - "pylint -E setup.py"
 script: "nosetests -s -v"

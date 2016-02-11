@@ -8,7 +8,7 @@ python:
 sudo: false
 install:
   # pylint needs unittest2 to check the test code.
-  - "pip install -q flake8==2.5.2 pylint nose six --use-mirrors"
+  - "pip install -q flake8==2.5.2 pylint nose six"
   - python -c "import six; exit(not six.PY3)" || pip install unittest2
 before_script:
   - "flake8 tests src setup.py"

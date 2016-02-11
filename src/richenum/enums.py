@@ -259,7 +259,7 @@ class _EnumMethods(object):
 
     @classmethod
     def lookup(cls, field, value):
-        for member in cls:
+        for member in cls:  # pylint: disable=E1133
             member_value = getattr(member, field)
 
             if member_value == value:

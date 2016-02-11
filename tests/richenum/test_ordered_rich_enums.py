@@ -11,11 +11,11 @@ except ImportError:
 if PY3:
     unicode = str  # for flake8, mainly
 
-from richenum import EnumConstructionException
-from richenum import EnumLookupError
-from richenum import OrderedRichEnum
-from richenum import OrderedRichEnumValue
-from richenum import RichEnumValue
+from richenum import EnumConstructionException  # noqa
+from richenum import EnumLookupError  # noqa
+from richenum import OrderedRichEnum  # noqa
+from richenum import OrderedRichEnumValue  # noqa
+from richenum import RichEnumValue  # noqa
 
 
 class BreakfastEnumValue(OrderedRichEnumValue):

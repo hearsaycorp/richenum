@@ -13,6 +13,5 @@ install:
 before_script:
   - "flake8 tests src setup.py"
   - "pylint -E src/richenum"
-  - "pylint -E tests/richenum"
   - "pylint -E setup.py"
 script: "nosetests -s -v"

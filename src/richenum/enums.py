@@ -164,6 +164,13 @@ class OrderedRichEnumValue(RichEnumValue):
         else:
             return False
 
+    def __hash__(self):
+        """
+        __hash__ is not inherited from base class when __eq__
+        is overridden
+        """
+        return hash(self.canonical_name + str(self.index))
+
 
 def _setup_members(cls_attrs, cls_parents, member_cls):
         members = []

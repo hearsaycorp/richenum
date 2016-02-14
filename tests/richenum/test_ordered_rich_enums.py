@@ -122,3 +122,6 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
         if not PY3:
             self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")
+
+    def test_enum_hashable(self):
+        self.assertTrue(hash(coffee))

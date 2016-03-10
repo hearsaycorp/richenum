@@ -5,7 +5,7 @@ richenum
     :alt: Build Status
     :target: https://travis-ci.org/#!/hearsaycorp/richenum/
 
-.. image:: https://pypip.in/v/richenum/badge.png
+.. image:: https://img.shields.io/pypi/v/richenum.svg
     :alt: Latest PyPI Version
     :target: https://pypi.python.org/pypi/richenum/
 

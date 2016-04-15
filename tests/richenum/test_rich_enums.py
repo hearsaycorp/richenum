@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # pylint: disable=E1101
 
@@ -147,3 +148,16 @@ class RichEnumTestSuite(unittest.TestCase):
         self.assertEqual(str(poop_okra), "Okra💩")
         if not PY3:
             self.assertEqual(unicode(poop_okra), u"Okra💩")
+
+    def test_specific_lookup_error_is_caught(self):
+        with self.assertRaises(Vegetable.LookupError):
+            Vegetable.lookup('canonical_name', 'meat')
+
+    def test_other_specific_lookup_error_is_not_caught(self):
+        class Meat(RichEnum):
+            COW = RichEnumValue("cow", "Cow")
+
+        with self.assertRaises(EnumLookupError) as cm:
+            Vegetable.lookup('canonical_name', 'meat')
+
+        self.assertNotIsInstance(cm.exception, Meat.LookupError)

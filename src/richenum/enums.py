@@ -231,6 +231,7 @@ class _RichEnumMetaclass(_BaseRichEnumMetaclass):
         members = _setup_members(cls_attrs, cls_parents, RichEnumValue)
         # Use tuple when possible when setting internal attributes to prevent modification
         cls_attrs['_MEMBERS'] = tuple(members)
+        cls_attrs['LookupError'] = type('LookupError', (EnumLookupError,), {})
         return super(_RichEnumMetaclass, cls).__new__(cls, cls_name, cls_parents, cls_attrs)
 
 
@@ -241,6 +242,7 @@ class _OrderedRichEnumMetaclass(_BaseRichEnumMetaclass):
 
         # Use tuple when possible when setting internal attributes to prevent modification
         cls_attrs['_MEMBERS'] = tuple(members)
+        cls_attrs['LookupError'] = type('LookupError', (EnumLookupError,), {})
 
         # we want to validate that there are not two items at the same index, so lets do that here
         seen = set()
@@ -278,7 +280,7 @@ class _EnumMethods(object):
                 value in member_value
             ):
                 return member
-        raise EnumLookupError('Could not find member matching %s = %s in enum %s'
+        raise cls.LookupError('Could not find member matching %s = %s in enum %s'  # pylint: disable=no-member
                               % (field, value, cls)
                               )
 

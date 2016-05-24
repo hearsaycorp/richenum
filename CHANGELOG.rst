@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.2.0 (2016-04-15)
+------------------
+    - added simple ``LookupError`` members that are thrown when
+      ``RichEnum.lookup`` is called for a nonexistent attr/val pair.
+      Users can choose to catch either the specific ``LookupError`` or
+      continue to catch ``EnumLookupError``.
+
 1.1.0 (2014-04-17)
 ------------------
     - support for Python 3 and PyPy

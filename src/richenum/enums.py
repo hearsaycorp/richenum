@@ -23,7 +23,7 @@ class EnumConstructionException(Exception):
     pass
 
 
-class EnumLookupError(Exception):
+class EnumLookupError(LookupError):
     """
     Raised when an enum cannot be found by the specified method of lookup.
     """

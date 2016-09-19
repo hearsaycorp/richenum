@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.1 (2016-09-16)
+------------------
+    - ``EnumLookupError`` class now inherits from built-in ``LookupError``.
+
 1.2.0 (2016-04-15)
 ------------------
     - added simple ``LookupError`` members that are thrown when

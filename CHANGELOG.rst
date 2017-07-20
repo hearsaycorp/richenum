@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.3.0 (2017-07-20)
+------------------
+    - Member types may be of any concrete type as long as they
+      all extend ``RichEnumValue`` or ``OrderedRichEnumValue``
+      (depending on the type of RichEnum).
+
 1.2.1 (2016-09-16)
 ------------------
     - ``EnumLookupError`` class now inherits from built-in ``LookupError``.

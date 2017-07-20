@@ -91,11 +91,10 @@ class RichEnumTestSuite(unittest.TestCase):
                 OKRA = okra
                 PARSNIP = 'parsnip'
 
-    def test_public_members_must_be_same_concrete_type(self):
-        with self.assertRaisesRegexp(EnumConstructionException, 'Differing member types'):
-            class Medley(RichEnum):
-                OKRA = okra
-                PARSNIP = RichEnumValue('carrot', 'Carrot')
+    def test_public_members_can_be_different_concrete_richenumvalue_type(self):
+        class Medley(RichEnum):
+            OKRA = okra
+            PARSNIP = RichEnumValue('carrot', 'Carrot')
 
     def test_private_members_can_be_anything(self):
         try:

@@ -5,15 +5,9 @@ import sys
 from setuptools import setup, find_packages
 
 
-tests_require = []
-
-if sys.version_info.major == 2:
-    tests_require.append("unittest2")
-
-
 setup(
     name='richenum',
-    version='1.2.1',
+    version='1.3.0',
     description='Enum library for python.',
     long_description=(
         open('README.rst').read() + '\n\n' +
@@ -26,8 +20,9 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -39,7 +34,8 @@ setup(
     license='MIT',
     package_dir={'': 'src'},
     packages=find_packages('src'),
-    tests_require=tests_require,
+    tests_require=['pytest'],
+    setup_requires=["pytest-runner"],
     install_requires=['six'],
     test_suite='tests'
 )

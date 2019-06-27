@@ -1,4 +1,8 @@
 import collections
+try:
+    collectionsAbc = collections.abc
+except AttributeError:
+    collectionsAbc = collections
 import copy
 from functools import total_ordering
 import logging
@@ -65,7 +69,7 @@ def enum(**enums):
         2
     """
     # Enum values must be hashable to support reverse lookup.
-    if not all(isinstance(val, collections.Hashable) for val in _values(enums)):
+    if not all(isinstance(val, collectionsAbc.Hashable) for val in _values(enums)):
         raise EnumConstructionException('All enum values must be hashable.')
 
     # Cheating by maintaining a copy of original dict for iteration b/c iterators are hard.
@@ -276,7 +280,7 @@ class _EnumMethods(object):
 
             if (
                 not isinstance(member_value, string_types) and
-                isinstance(member_value, collections.Iterable) and
+                isinstance(member_value, collectionsAbc.Iterable) and
                 value in member_value
             ):
                 return member

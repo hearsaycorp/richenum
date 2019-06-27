@@ -9,6 +9,14 @@ richenum
     :alt: Latest PyPI Version
     :target: https://pypi.python.org/pypi/richenum/
 
+.. image:: https://img.shields.io/pypi/pyversions/richenum.svg
+    :alt: Python versions
+    :target: https://pypi.org/project/richenum/
+
+.. image:: https://img.shields.io/pypi/dm/richenum.svg
+  :alt: Pypi Downloads
+  :target: https://pypi.org/project/richenum/
+  
 =====
 About
 =====

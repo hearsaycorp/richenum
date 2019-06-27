@@ -1,4 +1,8 @@
 import collections
+try:
+    collectionsAbc = collections.abc
+except AttributeError:
+    collectionsAbc = collections
 import copy
 from functools import total_ordering
 import logging
@@ -65,7 +69,7 @@ def enum(**enums):
         2
     """
     # Enum values must be hashable to support reverse lookup.
-    if not all(isinstance(val, collections.Hashable) for val in _values(enums)):
+    if not all(isinstance(val, collectionsAbc.Hashable) for val in _values(enums)):
         raise EnumConstructionException('All enum values must be hashable.')
 
     # Cheating by maintaining a copy of original dict for iteration b/c iterators are hard.
@@ -173,39 +177,39 @@ class OrderedRichEnumValue(RichEnumValue):
 
 
 def _setup_members(cls_attrs, cls_parents, member_cls):
-        members = []
+    members = []
 
-        # Find qualified "EnumValue" attributes.
-        # Field names must be UPPERCASE, not prefixed with _ ("internal"),
-        # and values must be EnumValue-derived.
-        last_type = None
-        for attr_key, attr_value in cls_attrs.items():
-            # Skip "internal" attributes
-            if attr_key.startswith("_"):
-                continue
+    # Find qualified "EnumValue" attributes.
+    # Field names must be UPPERCASE, not prefixed with _ ("internal"),
+    # and values must be EnumValue-derived.
+    last_type = None
+    for attr_key, attr_value in cls_attrs.items():
+        # Skip "internal" attributes
+        if attr_key.startswith("_"):
+            continue
 
-            if not attr_key.isupper():  # Implementation desiderata
-                continue
+        if not attr_key.isupper():  # Implementation desiderata
+            continue
 
-            if isinstance(attr_value, member_cls):
-                members.append(attr_value)
-            else:
-                raise EnumConstructionException("Invalid attribute: %s" % attr_key)
+        if isinstance(attr_value, member_cls):
+            members.append(attr_value)
+        else:
+            raise EnumConstructionException("Invalid attribute: %s" % attr_key)
 
-            attr_type = type(attr_value)
-            if last_type and attr_type != last_type:
-                raise EnumConstructionException("Differing member types: have seen %s,"
-                                                " encountered %s" % (last_type, attr_type))
-            else:
-                last_type = attr_type
+        attr_type = type(attr_value)
+        if last_type and attr_type != last_type:
+            raise EnumConstructionException("Differing member types: have seen %s,"
+                                            " encountered %s" % (last_type, attr_type))
+        else:
+            last_type = attr_type
 
-        if "__virtual__" not in cls_attrs and cls_parents not in [
-                (object, ), (_EnumMethods, )
-        ] and not members:
-            raise EnumConstructionException(
-                "Must specify at least one attribute when using RichEnum")
+    if "__virtual__" not in cls_attrs and cls_parents not in [
+            (object, ), (_EnumMethods, )
+    ] and not members:
+        raise EnumConstructionException(
+            "Must specify at least one attribute when using RichEnum")
 
-        return members
+    return members
 
 
 class _BaseRichEnumMetaclass(type):
@@ -276,7 +280,7 @@ class _EnumMethods(object):
 
             if (
                 not isinstance(member_value, string_types) and
-                isinstance(member_value, collections.Iterable) and
+                isinstance(member_value, collectionsAbc.Iterable) and
                 value in member_value
             ):
                 return member

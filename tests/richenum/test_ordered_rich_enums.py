@@ -3,11 +3,10 @@
 # pylint: disable=E1101
 
 import copy
+import unittest
+import re
+import pytest
 from six import PY3
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
 if PY3:
     unicode = str  # for flake8, mainly
 
@@ -53,14 +52,13 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Breakfast.OATMEAL.index, 1)
 
     def test_cannot_have_duplicate_indices(self):
-        with self.assertRaisesRegexp(EnumConstructionException, 'Index already defined'):
+        with pytest.raises(EnumConstructionException, match=r"Index already defined"):
             class DuplicateBreakast(OrderedRichEnum):
                 COFFEE = coffee
                 TEA = BreakfastEnumValue(0, 'tea', 'Tea')
 
     def test_cannot_have_negative_indices(self):
-        msg = 'Index cannot be a negative number'
-        with self.assertRaisesRegexp(EnumConstructionException, msg):
+        with pytest.raises(EnumConstructionException, match='Index cannot be a negative number'):
             class NegativeBreakfast(OrderedRichEnum):
                 BACON = BreakfastEnumValue(-1, 'bacon', 'Bacon')
 
@@ -78,7 +76,7 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
 
     def test_public_members_must_be_ordered(self):
         # Can't mix OrderedRichEnumValues and RichEnumValues.
-        with self.assertRaisesRegexp(EnumConstructionException, 'Invalid attribute'):
+        with pytest.raises(EnumConstructionException, match='Invalid attribute'):
             class MixedBreakfast(OrderedRichEnum):
                 COFFEE = coffee
                 TEA = RichEnumValue('tea', 'Tea')
@@ -115,10 +113,8 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
 
     def test_unicode_handling(self):
         poop_oatmeal = BreakfastEnumValue(3, u'oatmeal💩', u'Oatmeal💩')
-        self.assertRegexpMatches(
-            repr(poop_oatmeal),
-            r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>",
-        )
+        exp = re.compile(r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>")
+        assert exp.search(repr(poop_oatmeal)) is not None
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
         if not PY3:
             self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")

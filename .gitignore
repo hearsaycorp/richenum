@@ -4,8 +4,7 @@
 *.so
 
 # Packages
-*.egg
-*.egg-info
+*.egg*
 dist
 build
 eggs
@@ -34,3 +33,7 @@ nosetests.xml
 .project
 .pydevproject
 .ropeproject
+
+
+# Virtualenv
+.venv

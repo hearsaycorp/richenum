@@ -1,5 +1,6 @@
 # pylint: disable=E1101
 import unittest
+import pytest
 from richenum import enum
 from richenum import EnumConstructionException
 
@@ -33,7 +34,6 @@ class SimpleEnumTestSuite(unittest.TestCase):
     def test_values_can_be_any_hashable_type(self):
         """Test simple enums accept values of any hashable type"""
         Confused = enum(INT=0, TUPLE=(1, 2), STR='yup')
-        self.assertEqual(Confused.get_id_by_label('TUPLE'), (1, 2))
-
-        with self.assertRaisesRegexp(EnumConstructionException, 'hashable'):
+        assert Confused.get_id_by_label('TUPLE') == (1, 2)
+        with pytest.raises(EnumConstructionException, match=r"hashable"):
             Confused = enum(LIST=[1, 2])

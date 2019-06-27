@@ -4,6 +4,7 @@
 
 import copy
 import unittest
+import pytest
 from six import PY3
 if PY3:
     unicode = str  # for flake8, mainly
@@ -50,14 +51,13 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         self.assertEqual(Breakfast.OATMEAL.index, 1)
 
     def test_cannot_have_duplicate_indices(self):
-        with self.assertRaisesRegexp(EnumConstructionException, 'Index already defined'):
+        with pytest.raises(EnumConstructionException, match=r"Index already defined"):
             class DuplicateBreakast(OrderedRichEnum):
                 COFFEE = coffee
                 TEA = BreakfastEnumValue(0, 'tea', 'Tea')
 
     def test_cannot_have_negative_indices(self):
-        msg = 'Index cannot be a negative number'
-        with self.assertRaisesRegexp(EnumConstructionException, msg):
+        with pytest.raises(EnumConstructionException, match='Index cannot be a negative number'):
             class NegativeBreakfast(OrderedRichEnum):
                 BACON = BreakfastEnumValue(-1, 'bacon', 'Bacon')
 
@@ -75,7 +75,7 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
 
     def test_public_members_must_be_ordered(self):
         # Can't mix OrderedRichEnumValues and RichEnumValues.
-        with self.assertRaisesRegexp(EnumConstructionException, 'Invalid attribute'):
+        with pytest.raises(EnumConstructionException, match='Invalid attribute'):
             class MixedBreakfast(OrderedRichEnum):
                 COFFEE = coffee
                 TEA = RichEnumValue('tea', 'Tea')

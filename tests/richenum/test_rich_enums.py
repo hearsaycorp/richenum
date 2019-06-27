@@ -2,6 +2,7 @@
 # pylint: disable=E1101
 
 import copy
+import re
 import unittest
 import pytest
 import six
@@ -138,9 +139,8 @@ class RichEnumTestSuite(unittest.TestCase):
 
     def test_unicode_handling(self):
         poop_okra = VegetableEnumValue('gross', u'okra💩', u'Okra💩')
-        self.assertRegex(
-            repr(poop_okra),
-            r"<VegetableEnumValue: okra..? \('Okra..?'\)>")
+        exp = re.compile(r"<VegetableEnumValue: okra..? \('Okra..?'\)>")
+        assert exp.search(repr(poop_okra)) is not None
         assert str(poop_okra) == "Okra💩"
         if not six.PY3:
             assert unicode(poop_okra) == u"Okra💩"

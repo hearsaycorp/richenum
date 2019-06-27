@@ -4,6 +4,7 @@
 
 import copy
 import unittest
+import re
 import pytest
 from six import PY3
 if PY3:
@@ -112,10 +113,8 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
 
     def test_unicode_handling(self):
         poop_oatmeal = BreakfastEnumValue(3, u'oatmeal💩', u'Oatmeal💩')
-        self.assertRegexpMatches(
-            repr(poop_oatmeal),
-            r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>",
-        )
+        exp = re.compile(r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>")
+        assert exp.search(repr(poop_oatmeal)) is not None
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
         if not PY3:
             self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")

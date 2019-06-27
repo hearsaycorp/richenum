@@ -21,5 +21,5 @@ __all__ = [
 __version__ = 'unknown'
 try:
     __version__ = __import__('pkg_resources').get_distribution('richenum').version
-except Exception as e:
+except Exception:
     pass

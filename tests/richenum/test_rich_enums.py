@@ -1,14 +1,10 @@
-
 # -*- coding: utf-8 -*-
 # pylint: disable=E1101
 
 import copy
-from six import PY3
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-if PY3:
+import six
+import unittest
+if six.PY3:
     unicode = str  # for flake8, mainly
 
 from richenum import EnumConstructionException  # noqa
@@ -143,11 +139,11 @@ class RichEnumTestSuite(unittest.TestCase):
         poop_okra = VegetableEnumValue('gross', u'okra💩', u'Okra💩')
         self.assertRegexpMatches(
             repr(poop_okra),
-            "<VegetableEnumValue: okra..? \('Okra..?'\)>",
+            r"<VegetableEnumValue: okra..? \('Okra..?'\)>",
         )
         self.assertEqual(str(poop_okra), "Okra💩")
-        if not PY3:
-            self.assertEqual(unicode(poop_okra), u"Okra💩")
+        if not six.PY3:
+            assert unicode(poop_okra) == u"Okra💩"
 
     def test_specific_lookup_error_is_caught(self):
         with self.assertRaises(Vegetable.LookupError):

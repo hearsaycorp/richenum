@@ -3,11 +3,8 @@
 # pylint: disable=E1101
 
 import copy
+import unittest
 from six import PY3
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
 if PY3:
     unicode = str  # for flake8, mainly
 

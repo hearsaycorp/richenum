@@ -1,9 +1,9 @@
 ========
 richenum
 ========
-.. image:: https://travis-ci.org/hearsaycorp/richenum.png
+.. image:: https://circleci.com/gh/hearsaycorp/richenum/tree/master.svg?style=svg
     :alt: Build Status
-    :target: https://travis-ci.org/#!/hearsaycorp/richenum/
+    :target: https://circleci.com/gh/hearsaycorp/richenum/tree/master
 
 .. image:: https://img.shields.io/pypi/v/richenum.svg
     :alt: Latest PyPI Version

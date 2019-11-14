@@ -149,10 +149,10 @@ class RichEnumTestSuite(unittest.TestCase):
         class DisplayProxy():
             def __init__(self, name):
                 self.name = name
-            
+
             def __str__(self):
                 return self.name
-        
+
         proxy_okra = VegetableEnumValue('gross', 'okra', DisplayProxy('okra'))
         assert '%s' % (proxy_okra) == 'okra'
 

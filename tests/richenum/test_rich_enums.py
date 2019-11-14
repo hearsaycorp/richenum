@@ -145,6 +145,17 @@ class RichEnumTestSuite(unittest.TestCase):
         if not six.PY3:
             assert unicode(poop_okra) == u"Okra💩"
 
+    def test_string_coercion(self):
+        class DisplayProxy():
+            def __init__(self, name):
+                self.name = name
+            
+            def __str__(self):
+                return self.name
+        
+        proxy_okra = VegetableEnumValue('gross', 'okra', DisplayProxy('okra'))
+        assert '%s' % (proxy_okra) == 'okra'
+
     def test_specific_lookup_error_is_caught(self):
         with self.assertRaises(Vegetable.LookupError):
             Vegetable.lookup('canonical_name', 'meat')

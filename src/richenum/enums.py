@@ -104,7 +104,7 @@ class RichEnumValue(object):
         return unicode(self.display_name)
 
     def __str__(self):
-        return self.display_name if PY3 else unicode(self).encode(
+        return str(self.display_name) if PY3 else unicode(self).encode(
             'utf-8', 'xmlcharrefreplace')
 
     def __hash__(self):

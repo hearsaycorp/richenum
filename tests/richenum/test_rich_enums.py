@@ -140,10 +140,21 @@ class RichEnumTestSuite(unittest.TestCase):
     def test_unicode_handling(self):
         poop_okra = VegetableEnumValue('gross', u'okra💩', u'Okra💩')
         exp = re.compile(r"<VegetableEnumValue: okra..? \('Okra..?'\)>")
-        assert exp.search(repr(poop_okra)) is not None
-        assert str(poop_okra) == "Okra💩"
+        self.assertIsNotNone(exp.search(repr(poop_okra)))
+        self.assertEqual(str(poop_okra), "Okra💩")
         if not six.PY3:
-            assert unicode(poop_okra) == u"Okra💩"
+            self.assertEqual(unicode(poop_okra), u"Okra💩")
+
+    def test_string_coercion(self):
+        class DisplayProxy():
+            def __init__(self, name):
+                self.name = name
+
+            def __str__(self):
+                return self.name
+
+        proxy_okra = VegetableEnumValue('gross', 'okra', DisplayProxy('okra'))
+        self.assertEqual('%s' % (proxy_okra), 'okra')
 
     def test_specific_lookup_error_is_caught(self):
         with self.assertRaises(Vegetable.LookupError):

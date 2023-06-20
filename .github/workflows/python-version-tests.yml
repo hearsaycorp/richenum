@@ -21,9 +21,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        apt-get update
-        apt-get install python3-pip -y
-        pip install -q --user flake8 pylint pytest six
+        sudo apt-get update
+        sudo apt-get install python3-pip -y
+        sudo pip install -q --user flake8 pylint pytest six
     - name: Run Tests
       run: |
         flake8 tests src setup.py

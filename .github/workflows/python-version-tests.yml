@@ -24,7 +24,10 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install python3-pip -y
-        sudo pip install -q --user flake8 pylint pytest six
+        sudo apt install flake8
+        sudo apt install pylint
+        pip install pytest
+        pip install six
     - name: Run Tests
       run: |
         flake8 tests src setup.py

@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='richenum',
-    version='1.3.1',
+    version='1.3.2',
     description='Enum library for python.',
     long_description=(
         open('README.rst').read() + '\n\n' +
@@ -21,6 +21,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',

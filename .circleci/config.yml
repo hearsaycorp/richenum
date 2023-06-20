@@ -1,7 +1,7 @@
 aliases:
   - &install-pip |
     apt-get update
-    apt-get install python-pip -y
+    apt-get install python3-pip -y
 
   - &install-dependencies |
     pip install -q --user flake8 pylint pytest six
@@ -16,9 +16,9 @@ aliases:
 
 version: 2
 jobs:
-  test-2.7: &test-template
+  test-3.5: &test-template
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.5
     steps:
       - checkout
       - run:
@@ -30,10 +30,6 @@ jobs:
       - run:
           name: run tests
           command: *run-tests
-  test-3.5:
-    <<: *test-template
-    docker:
-    - image: circleci/python:3.5
   test-3.6:
     <<: *test-template
     docker:
@@ -42,30 +38,16 @@ jobs:
     <<: *test-template
     docker:
     - image: circleci/python:3.7
-  test-pypy2.7:
+  test-3.8:
+    <<: *test-template
     docker:
-      - image: pypy:2.7
-    steps:
-      - checkout
-      - run:
-          name: install pip
-          command: *install-pip
-      - run:
-          name: setup environment
-          command: *setup-environment
-      - run:
-          name: install dependencies
-          command: *install-dependencies
-      - run:
-          name: run tests
-          command: *run-tests
+    - image: circleci/python:3.8
 
 workflows:
   version: 2
   test:
     jobs:
-      - test-2.7
       - test-3.5
       - test-3.6
       - test-3.7
-      - test-pypy2.7
+      - test-3.8

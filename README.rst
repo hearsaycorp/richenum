@@ -1,9 +1,7 @@
 ========
 richenum
 ========
-.. image:: https://circleci.com/gh/hearsaycorp/richenum/tree/master.svg?style=svg
-    :alt: Build Status
-    :target: https://circleci.com/gh/hearsaycorp/richenum/tree/master
+[![Python Version Tests](https://github.com/wyguy444/richenum/actions/workflows/python-version-tests.yml/badge.svg)](https://github.com/wyguy444/richenum/actions/workflows/python-version-tests.yml)
 
 .. image:: https://img.shields.io/pypi/v/richenum.svg
     :alt: Latest PyPI Version

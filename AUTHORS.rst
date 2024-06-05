@@ -4,6 +4,7 @@ Developed and maintained by `Hearsay Social, Inc.
 Contributors
 ============
 | `Adam DePue <http://github.com/adepue>`_
+| `Aron radics <http://github.com/radaron>`_
 | `Akshay Shah <http://github.com/akshayjshah>`_
 | `Dale Hui <http://github.com/dhui>`_
 | `Robert MacCloy <http://github.com/rbm>`_

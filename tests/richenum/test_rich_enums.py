@@ -5,9 +5,6 @@ import copy
 import re
 import unittest
 import pytest
-import six
-if six.PY3:
-    unicode = str  # for flake8, mainly
 
 from richenum import EnumConstructionException  # noqa
 from richenum import EnumLookupError  # noqa
@@ -142,8 +139,6 @@ class RichEnumTestSuite(unittest.TestCase):
         exp = re.compile(r"<VegetableEnumValue: okra..? \('Okra..?'\)>")
         self.assertIsNotNone(exp.search(repr(poop_okra)))
         self.assertEqual(str(poop_okra), "Okra💩")
-        if not six.PY3:
-            self.assertEqual(unicode(poop_okra), u"Okra💩")
 
     def test_string_coercion(self):
         class DisplayProxy():

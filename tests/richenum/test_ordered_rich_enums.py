@@ -6,9 +6,6 @@ import copy
 import unittest
 import re
 import pytest
-from six import PY3
-if PY3:
-    unicode = str  # for flake8, mainly
 
 from richenum import EnumConstructionException  # noqa
 from richenum import EnumLookupError  # noqa
@@ -116,8 +113,6 @@ class OrderedRichEnumTestSuite(unittest.TestCase):
         exp = re.compile(r"<BreakfastEnumValue #3: oatmeal..? \('Oatmeal..?'\)>")
         assert exp.search(repr(poop_oatmeal)) is not None
         self.assertEqual(str(poop_oatmeal), "Oatmeal💩")
-        if not PY3:
-            self.assertEqual(unicode(poop_oatmeal), u"Oatmeal💩")
 
     def test_enum_hashable(self):
         self.assertTrue(hash(coffee))

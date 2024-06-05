@@ -7,14 +7,8 @@ import copy
 from functools import total_ordering
 import logging
 import numbers
-from six import PY3
-from six import string_types
-from six import with_metaclass
 
 from operator import itemgetter
-
-if PY3:
-    unicode = str  # workaround for flake8
 
 
 logger = logging.getLogger(__name__)
@@ -32,15 +26,6 @@ class EnumLookupError(LookupError):
     Raised when an enum cannot be found by the specified method of lookup.
     """
     pass
-
-
-def _str_or_ascii_replace(stringy):
-    if PY3:
-        return stringy
-    else:
-        if isinstance(stringy, str):
-            stringy = stringy.decode('utf-8')
-        return stringy.encode('ascii', 'replace')
 
 
 def _items(dict):
@@ -96,16 +81,15 @@ class RichEnumValue(object):
     def __repr__(self):
         return "<%s: %s ('%s')>" % (
             self.__class__.__name__,
-            _str_or_ascii_replace(self.canonical_name),
-            _str_or_ascii_replace(self.display_name),
+            self.canonical_name,
+            self.display_name,
         )
 
     def __unicode__(self):
-        return unicode(self.display_name)
+        return str(self.display_name)
 
     def __str__(self):
-        return str(self.display_name) if PY3 else unicode(self).encode(
-            'utf-8', 'xmlcharrefreplace')
+        return str(self.display_name)
 
     def __hash__(self):
         return hash(self.canonical_name)
@@ -152,8 +136,8 @@ class OrderedRichEnumValue(RichEnumValue):
         return "<%s #%s: %s ('%s')>" % (
             self.__class__.__name__,
             self.index,
-            _str_or_ascii_replace(self.canonical_name),
-            _str_or_ascii_replace(self.display_name),
+            self.canonical_name,
+            self.display_name,
         )
 
     def __lt__(self, other):
@@ -225,7 +209,7 @@ class _BaseRichEnumMetaclass(type):
         members = cls.members()
         if not members:
             return False
-        if not type(members[0]) == type(item):
+        if not type(members[0]) is type(item):
             return False
         return (item in members)
 
@@ -279,7 +263,7 @@ class _EnumMethods(object):
                 return member
 
             if (
-                not isinstance(member_value, string_types) and
+                not isinstance(member_value, str) and
                 isinstance(member_value, collectionsAbc.Iterable) and
                 value in member_value
             ):
@@ -311,7 +295,7 @@ class _EnumMethods(object):
         return [m.choicify(value_field=value_field, display_field=display_field) for m in cls.members()]
 
 
-class RichEnum(with_metaclass(_RichEnumMetaclass, _EnumMethods)):
+class RichEnum(_EnumMethods, metaclass=_RichEnumMetaclass):
     """
     Enumeration that can represent a name for referencing (canonical_name) and
     a name for displaying (display_name).
@@ -339,7 +323,7 @@ class RichEnum(with_metaclass(_RichEnumMetaclass, _EnumMethods)):
     __virtual__ = True
 
 
-class OrderedRichEnum(with_metaclass(_OrderedRichEnumMetaclass, _EnumMethods)):
+class OrderedRichEnum(_EnumMethods, metaclass=_OrderedRichEnumMetaclass):
     """
     Use OrderedRichEnum when you need a RichEnum with index-based
     access into the enum, e.g. OrderedRichEnumExample.from_index(0),

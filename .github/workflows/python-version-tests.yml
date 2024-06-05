@@ -27,7 +27,6 @@ jobs:
         sudo apt install flake8
         sudo apt install pylint
         pip install pytest
-        pip install six
     - name: Run Tests
       run: |
         flake8 tests src setup.py

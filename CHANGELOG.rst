@@ -38,3 +38,10 @@ Changelog
 1.0.0 (2013-08-16)
 ------------------
     - Initial public release.
+
+2.0.0 (2024-06-04)
+------------------
+    - Remove six
+    - Remove python 3.7 support
+    - Add python 3.9 and 3.10 support
+    - Remove tox.ini

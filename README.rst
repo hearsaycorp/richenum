@@ -35,8 +35,8 @@ OrderedRichEnum
 -----
 Links
 -----
-| `GitHub <https://github.com/hearsaycorp/richenum>`_
-| `PyPi <https://pypi.python.org/pypi/richenum/>`_
+| `GitHub <https://github.com/hearsaycorp/richenum>`__
+| `PyPi <https://pypi.python.org/pypi/richenum/>`__
 | `Blog post about the motivation behind RichEnum <http://engineering.hearsaysocial.com/2013/09/16/enums-in-python/>`_
 
 ============
@@ -46,9 +46,9 @@ Installation
 
     $ pip install richenum
 
-=====
+=============
 Example Usage
-=====
+=============
 ----
 enum
 ----
@@ -102,9 +102,9 @@ Related Packages
 django-richenum
   Makes RichEnum and OrderedRichEnum available in as model fields and form fields in Django.
 
-  | `GitHub <https://github.com/hearsaycorp/django-richenum>`_
+  | `GitHub <https://github.com/hearsaycorp/django-richenum>`__
 
-  | `PyPi <https://pypi.python.org/pypi/django-richenum/>`_
+  | `PyPi <https://pypi.python.org/pypi/django-richenum/>`__
 
 enum
   Starting with Python 3.4, there is a standard library for enumerations.
@@ -116,7 +116,7 @@ enum
 Contributing
 ============
 
-#. Fork the repo from `GitHub <https://github.com/hearsaycorp/richenum>`_.
+#. Fork the repo from `GitHub <https://github.com/hearsaycorp/richenum>`__.
 #. Make your changes.
 #. Add unittests for your changes.
 #. Run `pep8 <https://pypi.python.org/pypi/pep8>`_, `pyflakes <https://pypi.python.org/pypi/pyflakes>`_, and `pylint <https://pypi.python.org/pypi/pyflakes>`_ to make sure your changes follow the Python style guide and doesn't have any errors.

@@ -5,12 +5,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='richenum',
-    version='2.0.0',
+    version='2.0.1',
     description='Enum library for python.',
     long_description=(
         open('README.rst').read() + '\n\n' +
         open('CHANGELOG.rst').read() + '\n\n' +
         open('AUTHORS.rst').read()),
+    long_description_content_type='text/x-rst',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: MIT License',

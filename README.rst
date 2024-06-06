@@ -1,9 +1,8 @@
 ========
 richenum
 ========
-.. image:: https://circleci.com/gh/hearsaycorp/richenum/tree/master.svg?style=svg
+.. image:: https://github.com/hearsaycorp/richenum/actions/workflows/python-version-tests.yml/badge.svg
     :alt: Build Status
-    :target: https://circleci.com/gh/hearsaycorp/richenum/tree/master
 
 .. image:: https://img.shields.io/pypi/v/richenum.svg
     :alt: Latest PyPI Version
@@ -16,7 +15,7 @@ richenum
 .. image:: https://img.shields.io/pypi/dm/richenum.svg
   :alt: Pypi Downloads
   :target: https://pypi.org/project/richenum/
-  
+
 =====
 About
 =====

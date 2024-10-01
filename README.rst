@@ -37,7 +37,6 @@ Links
 -----
 | `GitHub <https://github.com/hearsaycorp/richenum>`__
 | `PyPi <https://pypi.python.org/pypi/richenum/>`__
-| `Blog post about the motivation behind RichEnum <http://engineering.hearsaysocial.com/2013/09/16/enums-in-python/>`_
 
 ============
 Installation

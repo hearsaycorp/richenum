@@ -3,6 +3,11 @@ Changelog
 =========
 
 ------------------
+2.0.2 (2024-10-01)
+------------------
+    - Remove unavailable blog post link from README.rst
+
+------------------
 2.0.1 (2024-06-06)
 ------------------
     - Fix README.rst

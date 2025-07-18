@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "richenum"
-version = "2.0.2"
+version = "2.0.3"
 description = "Enum library for python."
 authors = ["Hearsay Social <opensource@hearsaysocial.com>"]
 license = "MIT"
@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 packages = [{include = "richenum", from = "src"}]
-include = ["LICENSE.txt", "AUTHORS.rst"]
+include = ["LICENSE.txt", "AUTHORS.rst", "CHANGELOG.rst"]
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
@@ -39,3 +39,6 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+
+[tool.flake8]
+max-line-length = 119

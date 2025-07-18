@@ -30,7 +30,5 @@ setup(
     license='MIT',
     package_dir={'': 'src'},
     packages=find_packages('src'),
-    tests_require=['pytest'],
-    setup_requires=["pytest-runner"],
-    test_suite='tests'
+    tests_require=['pytest']
 )

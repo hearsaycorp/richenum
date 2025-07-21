@@ -1,0 +1,14 @@
+name: Client Build
+on:
+  release:
+    types: [released]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  call-workflow:
+    uses: hearsaycorp/github-action-templates/.github/workflows/client_build.yaml@main
+    with: 
+      repository_url: https://pypi.python.org/simple
+    secrets: inherit

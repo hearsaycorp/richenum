@@ -14,7 +14,6 @@ poetry:
 	curl -sSL https://install.python-poetry.org | POETRY_VERSION=2.1.3 python3 -
 	poetry cache clear pypi --all
 	poetry config virtualenvs.in-project true
-	poetry config http-basic.hss hsl-readonly Vg8VRXw7a6TZbGBcMBbw
 
 quickstart: poetry install-dev hooks
 

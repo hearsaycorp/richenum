@@ -37,3 +37,7 @@ nosetests.xml
 
 # Virtualenv
 .venv
+
+# Other
+.pypirc
+.git

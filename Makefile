@@ -1,8 +1,8 @@
 REPO = $(shell git rev-parse --show-toplevel)
 POETRY = poetry
 
-# hooks:
-# 	${REPO}/githooks/update_githooks.sh
+hooks:
+	${REPO}/githooks/update_githooks.sh
 
 install-build:
 	${POETRY} install --only=main
@@ -16,7 +16,7 @@ poetry:
 	poetry config virtualenvs.in-project true
 	poetry config http-basic.hss hsl-readonly Vg8VRXw7a6TZbGBcMBbw
 
-quickstart: poetry install-dev
+quickstart: poetry install-dev hooks
 
 quickstart-build: poetry install-build hooks
 

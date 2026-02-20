@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# Pre-commit linting.
+#
+# To skip any of these checks touch any of these bypass_* files in the
+# project root.
+#     bypass_flake8
+#     bypass_tabs
+#
+# To bypass Flake8 checking for a particular line, add '# noqa' as an
+# inline comment.
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+function get_temp_file {
+    export TMPDIR=/tmp  # OSX compat
+    echo `mktemp tmp.pre-commit.XXXXXXXXXX`
+}
+
+function flake8_check {
+    local temp_file
+    temp_file=$1
+    poetry run flake8 --config="${REPO_ROOT}/setup.cfg" "$temp_file"
+    return $?
+}
+
+function tab_check {
+    local temp_file
+    temp_file=$1
+    if grep -q $'\t' $temp_file; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+function run_check {
+    local run_type
+    local display_name
+    local file_ext
+    local callback
+    run_type=$1
+    display_name=$2
+    file_ext=$3  # the file extension to check against
+    callback=$4  # callback should take the (temporary) file to check
+
+    if [ -e $REPO_ROOT/bypass_$run_type ]; then
+        echo "Bypassed $display_name check."
+        rm $REPO_ROOT/bypass_$run_type 2> /dev/null  # don't bypass the check next time.
+    else
+        # Only check staged files that match the extension.
+        # The --diff-filter option matches everything except for (D)eleted files.
+        echo "Running $display_name checker..."
+        local files
+        files=`git diff --staged --name-only --diff-filter=ACMRTUXB | grep "\.${file_ext}\$"`
+        for file in $files; do
+            local temp_file
+            temp_file=$(get_temp_file)
+            git show :0:$file > $temp_file  # check the staged version of the file
+
+            local ret
+            $callback $temp_file
+            ret=$?
+
+            rm $temp_file  # clean up the temp file, the callback should never exit
+            if [ $ret -ne 0 ]
+            then
+                echo "Not committing since there are ${display_name} errors in $file."
+                exit 1
+            fi
+        done
+    fi
+}
+
+# Flake8 checks for tab indentation in Python.
+run_check flake8 Flake8 py flake8_check
+run_check tabs TabCharacter sh tab_check

@@ -10,4 +10,3 @@ reports=no
 [TYPECHECK]
 # Dynamically-set members missed by the inference system.
 # generated-members=
-ignored-modules=six.moves

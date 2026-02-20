@@ -20,7 +20,7 @@ function get_temp_file {
 function flake8_check {
     local temp_file
     temp_file=$1
-    poetry run flake8 --config="${REPO_ROOT}/setup.cfg" "$temp_file"
+    poetry run flake8 --config="${REPO_ROOT}/.flake8" "$temp_file"
     return $?
 }
 

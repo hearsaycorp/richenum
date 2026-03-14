@@ -4,7 +4,7 @@ version = "2.1.0"
 description = "Enum library for python."
 authors = ["Hearsay Social <opensource@hearsaysocial.com>"]
 license = "MIT"
-readme = "README.rst"
+readme = ["README.md", "CHANGELOG.md"]
 homepage = "https://github.com/hearsaycorp/richenum"
 repository = "https://github.com/hearsaycorp/richenum"
 keywords = ["python", "enum", "richenum"]
@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 packages = [{include = "richenum", from = "src"}]
-include = ["LICENSE.txt", "AUTHORS.rst", "CHANGELOG.rst"]
+include = ["LICENSE.txt", "AUTHORS.md", "CHANGELOG.md"]
 
 [tool.poetry.dependencies]
 python = "^3.8.1"

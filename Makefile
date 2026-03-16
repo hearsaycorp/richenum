@@ -13,7 +13,7 @@ install-dev: poetry
 	${POETRY} install --with dev --sync
 
 poetry:
-	curl -sSL https://install.python-poetry.org | POETRY_VERSION=2.1.3 python3 -
+	curl -sSL https://install.python-poetry.org | POETRY_VERSION=2.2.1 python3 -
 	poetry cache clear pypi --all
 	poetry config virtualenvs.in-project true
 

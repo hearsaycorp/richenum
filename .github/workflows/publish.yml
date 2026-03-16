@@ -1,0 +1,30 @@
+name: Client Build and Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/richenum
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.14"
+    - name: Install Poetry and Dependencies
+      run: |
+        make quickstart-build 
+    - name: Build package
+      run: |
+        make build
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@ed0c5390c58e727690666d924fdd9d4791c13d80
+

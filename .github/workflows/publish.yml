@@ -26,5 +26,5 @@ jobs:
       run: |
         make build
     - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@ed0c5390c58e727690666d924fdd9d4791c13d80
+      uses: pypa/gh-action-pypi-publish@release/v1
 

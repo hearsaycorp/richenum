@@ -1,14 +1,16 @@
 REPO = $(shell git rev-parse --show-toplevel)
 POETRY = poetry
 
+.PHONY: hooks install-build install-dev poetry quickstart quickstart-build clean lint test build
+
 hooks:
 	${REPO}/githooks/update_githooks.sh
 
-install-build:
-	${POETRY} install --only=main
+install-build: poetry
+	${POETRY} install --only=main --sync
 
-install-dev:
-	${POETRY} install
+install-dev: poetry
+	${POETRY} install --with dev --sync
 
 poetry:
 	curl -sSL https://install.python-poetry.org | POETRY_VERSION=2.1.3 python3 -
